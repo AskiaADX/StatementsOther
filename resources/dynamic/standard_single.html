@@ -1,0 +1,90 @@
+﻿{%
+Dim inputName = CurrentQuestion.InputName()
+Dim inputValue = CurrentQuestion.InputValue()
+Dim caption
+Dim image
+Dim index
+Dim columnCounter
+Dim i
+Dim j
+Dim k
+Dim ar = CurrentQuestion.AvailableResponses
+Dim otherIDs = CurrentADC.PropValue("otherRID")
+Dim	otherIDarray = otherIDs.Split(",")
+Dim otherID
+
+%}
+<input type="hidden" id="{%= inputName %}" name="{%= inputName %}" value="{%= inputValue %}"  />
+{%
+
+Dim numberOfColumns = CurrentADC.PropValue("columns").ToNumber()
+
+IF numberOfColumns > 0 Then
+    
+   	columnCounter = numberOfColumns
+
+    For i = 1 To CurrentQuestion.AvailableResponses.Count 
+        inputValue  = CurrentQuestion.AvailableResponses[i].InputValue()
+        caption     = CurrentQuestion.AvailableResponses[i].Caption
+        image		= CurrentQuestion.AvailableResponses.ResourceURL[i]
+        index		= CurrentQuestion.AvailableResponses[i].index
+        
+        if ( (columnCounter mod numberOfColumns) = 0 ) Then %}
+        	<div class="column">
+        {% EndIf %}
+          
+        <div class="responseItem" data-value="{%= inputValue %}" data-id="{%= i %}" data-index="{%= index %}">
+            {% IF image <> "" Then %}
+                <img src="{%= image %}" unselectable='on' onselectstart='return false;' onmousedown='return false;' />
+            {% EndIF %}
+            <span class="response_text" unselectable='on' onselectstart='return false;' onmousedown='return false;'>{%:= caption %}</span>
+            <div style="clear:both"></div>
+            {% For k = 1 To otherIDarray.Count 
+            	otherID = otherIDarray[k].ToNumber()
+            	IF index = otherID Then %}
+                    <div><textarea class="otherText" data-id="{%= k %}"></textarea></div>
+                    <div style="clear:both"></div>
+                {% EndIF %}
+            {% Next %}
+        </div>
+        
+        {%
+        columnCounter = columnCounter - 1
+        
+        IF columnCounter < 1 Then
+        
+        	columnCounter = numberOfColumns
+            
+            %}
+            <div style="clear:both"></div>
+            </div>
+            
+        {% EndIF
+    
+    Next
+    
+Else
+	
+    For j = 1 To CurrentQuestion.AvailableResponses.Count 
+        inputValue  = CurrentQuestion.AvailableResponses[j].InputValue()
+        caption     = CurrentQuestion.AvailableResponses[j].Caption
+        image		= CurrentQuestion.AvailableResponses.ResourceURL[j]
+        index		= CurrentQuestion.AvailableResponses[j].index
+    %}
+    <div class="responseItem" data-value="{%= inputValue %}" data-id="{%= j %}" data-index="{%= index %}">
+        {% IF image <> "" Then %}
+            <img src="{%= image %}" unselectable='on' onselectstart='return false;' onmousedown='return false;' />
+        {% EndIF %}
+        <span class="response_text" unselectable='on' onselectstart='return false;' onmousedown='return false;'>{%:= caption %}</span>
+        <div style="clear:both"></div>
+        {% For k = 1 To otherIDarray.Count 
+        	otherID = otherIDarray[k].ToNumber()
+            IF index = otherID Then %}
+                <div><textarea class="otherText" data-id="{%= k %}"></textarea></div>
+                <div style="clear:both"></div>
+            {% EndIF %}
+        {% Next %}
+    </div>
+    {% Next %}
+    <div style="clear:both"></div>
+{% EndIF %}
