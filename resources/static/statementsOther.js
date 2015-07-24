@@ -34,7 +34,7 @@
 			$(this).find('.responseItem').css('height','');
 			$(this).find('.column').css({'display':'block','width':'100%'});
 			$(this).find('.responseItem').css({'display':'block','float':'left'}).width( (100/options.columns) + '%');
-			var widthDiff = $('.responseItem').outerWidth(true) - $(this).find('.responseItem').innerWidth();
+			var widthDiff = $(this).find('.responseItem').outerWidth(true) - $(this).find('.responseItem').innerWidth();
 			$(this).find('.responseItem').width( (($('.column').outerWidth() - (widthDiff * options.columns))/options.columns) + "px" );
 			var maxResponseHeight = Math.max.apply( null, $(this).find('.responseItem').map( function () {
 				var thisHeight = $( this ).outerHeight();
