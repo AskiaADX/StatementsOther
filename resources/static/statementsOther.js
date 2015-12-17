@@ -411,9 +411,9 @@
 					//FIX
 					//OLD if ( $(this).data('id') == ( parseInt(options.otherRID)-1 ) ) $(this).parents('.controlContainer').find('.otherText').show().focus();
 					if ( $.inArray( String(parseInt($(this).data('index'))), otherRIDarray ) != -1 ) {
-							var otherID = $.inArray( String(parseInt($(this).data('index'))), otherRIDarray );
-							$(this).parents('.controlContainer').find('.otherText').eq(otherID).show().focus();
-						}
+						var otherID = $.inArray( String(parseInt($(this).data('index'))), otherRIDarray );
+						$(this).parents('.controlContainer').find('.otherText').eq(otherID).show().focus();
+					}
 					
 				} else {
 					$(this).removeClass('selected').css('filter',restoreRangeColour($(this).data('id')));
@@ -431,6 +431,7 @@
 				//currentValue = items[i].element.val();
 				currentValue = currentValues[i];
 				$container.find('.responseItem').each(function (index) {
+					if ( !$(this).hasClass('exclusive') ) $(this).addClass('cb');
 					$(this).data('id',index);
 					var value = $(this).data('value'),
 						isSelected = $(this).data('value') == currentValue ? true : false;
