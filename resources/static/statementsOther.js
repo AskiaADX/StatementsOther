@@ -277,7 +277,10 @@
 							$( '#'+otherQIDarray[i] ).val('');
 						}
 						$(this).parents('.controlContainer').find('.otherText').hide();
-					} else  $(this).parents('.controlContainer').find('.otherText').show().focus();
+					} else {
+						$(this).parents('.controlContainer').find('.otherText').hide();
+						$(this).find('.otherText').show().focus();
+					}
 
 				}
 				$target.addClass('selected');

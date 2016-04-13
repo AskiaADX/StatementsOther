@@ -7,7 +7,7 @@
   <info>
     <name>adc2-statementsOther</name>
     <guid>1175ae20-499c-4a62-8dc3-d3f495c29530</guid>
-    <version>1.0.13</version>
+    <version>1.0.14</version>
     <date>2013-07-26</date>
     <description>
       <![CDATA[Describe your ADC here
@@ -26,6 +26,7 @@
 			    - fixed image loading glitch
 		v1.0.12 - fixed multiple other boxes not appearing problem
 		v1.0.13 - fixed response sizing problem when merging screens
+		v1.0.14 - fixed multiple other boxes appearing with exclusivity bug
       ]]>
     </description>
     <author>
