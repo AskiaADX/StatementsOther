@@ -278,6 +278,10 @@
 						}
 						$(this).parents('.controlContainer').find('.otherText').hide();
 					} else {
+						$(this).parents('.controlContainer').find('.otherText').val('');
+						for (i = 0; i < otherQIDarray.length; ++i) {
+							$( '#'+otherQIDarray[i] ).val('');
+						}
 						$(this).parents('.controlContainer').find('.otherText').hide();
 						$(this).find('.otherText').show().focus();
 					}
