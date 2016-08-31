@@ -28,7 +28,7 @@
 		if ( options.columns > 1 )  {
 			/*$('.column').width( (100/options.columns) + '%' ).css('float','left')*/ 
 			$('.column').css({'display':'block','width':'100%'});
-			$('.responseItem').css({'display':'block','float':'left'});
+			$('.responseItem').css({'display':'inline-block'});
 		}
 		
 		// Other

@@ -33,14 +33,19 @@
 			// Try to make all the repsonses the same height
 			$(this).find('.responseItem').css('height','');
 			$(this).find('.column').css({'display':'block','width':'100%'});
-			$(this).find('.responseItem').css({'display':'block','float':'left'}).width( (100/options.columns) + '%');
-			var widthDiff = $(this).find('.responseItem').outerWidth(true) - $(this).find('.responseItem').innerWidth();
-			$(this).find('.responseItem').width( (($(this).find('.column').outerWidth() - (widthDiff * options.columns))/options.columns) + "px" );
+			$(this).find('.responseItem').css({'display':'inline-block'}).width( (100/options.columns) + '%');
+			var widthDiff = $(this).find('.responseItem').outerWidth(true) - $(this).find('.responseItem').width(),
+				newWidth = (($(this).find('.column').outerWidth() - (widthDiff * options.columns))/options.columns) - 
+							parseInt($(this).find('.responseItem').eq(0).css('margin-left')) + "px";
+			// Fix weird IE offset created by margin
+			$(this).find('.responseItem').width( newWidth );
 			var maxResponseHeight = Math.max.apply( null, $(this).find('.responseItem').map( function () {
 				var thisHeight = $( this ).outerHeight();
 				if ( $(this).find('.otherText').size() > 0 ) thisHeight -= $(this).find('.otherText').outerHeight(true);
 				return thisHeight;
 			}).get() );
+			
+			$(this).find('.responseItem').css({'height':maxResponseHeight+'px'});
 			
 			$(this).find('.responseItem').each(function() {
 				if ( $(this).find('.otherText').size() > 0 ) $(this).css({'height':'auto', 'min-height':maxResponseHeight+'px'});
