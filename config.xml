@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<control  xmlns="http://www.askia.com/2.0.0/ADCSchema"
+<control  xmlns="http://www.askia.com/ADCSchema"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://www.askia.com/2.0.0/ADCSchema https://raw.githubusercontent.com/AskiaADX/ADXSchema/2.0.0/ADCSchema.xsd"
+          xsi:schemaLocation="http://www.askia.com/ADCSchema http://www.askia.com/Downloads/dev/schemas/adc2.0/Config.xsd"
           version="2.0.0"
           askiaCompat="5.3.3">
   <info>
     <name>adc2-statementsOther</name>
     <guid>1175ae20-499c-4a62-8dc3-d3f495c29530</guid>
-    <version>1.0.16</version>
+    <version>1.0.17</version>
     <date>2013-07-26</date>
     <description><![CDATA[Describe your ADC here
         v1.0.5 - removed CSS3 Pie
@@ -27,7 +27,8 @@
 		v1.0.13 - fixed response sizing problem when merging screens
 		v1.0.14 - fixed multiple other boxes appearing with exclusivity bug
 		v1.0.15 - fixed alignment of the responses if column > 1
-		v1.0.16 - fixed height param and textbox overflow]]></description>
+		v1.0.16 - fixed height param and textbox overflow
+		v1.0.17 - removed visibility:hidden for ControlContainer]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
     <site>http://www.askia.com</site>
