@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<control  xmlns="http://www.askia.com/ADCSchema"
+<control  xmlns="http://www.askia.com/2.0.0/ADCSchema"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://www.askia.com/ADCSchema http://www.askia.com/Downloads/dev/schemas/adc2.0/Config.xsd"
+          xsi:schemaLocation="http://www.askia.com/2.0.0/ADCSchema https://raw.githubusercontent.com/AskiaADX/ADXSchema/2.0.0/ADCSchema.xsd"
           version="2.0.0"
           askiaCompat="5.3.3">
   <info>
     <name>adc2-statementsOther</name>
     <guid>1175ae20-499c-4a62-8dc3-d3f495c29530</guid>
-    <version>1.0.15</version>
+    <version>1.0.16</version>
     <date>2013-07-26</date>
-    <description><![CDATA[
-      Describe your ADC here
+    <description><![CDATA[Describe your ADC here
         v1.0.5 - removed CSS3 Pie
 		v1.0.6 - enabled control to be used in loops
 			   - added margin around responses
@@ -28,11 +27,9 @@
 		v1.0.13 - fixed response sizing problem when merging screens
 		v1.0.14 - fixed multiple other boxes appearing with exclusivity bug
 		v1.0.15 - fixed alignment of the responses if column > 1
-    ]]></description>
+		v1.0.16 - fixed height param and textbox overflow]]></description>
     <company>Askia</company>
-    <author><![CDATA[
-      Paul Ferreira <paulf@askia.com>
-    ]]></author>
+    <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
     <site>http://www.askia.com</site>
     <helpURL>https://dev.askia.com</helpURL>
     <categories>
@@ -40,8 +37,9 @@
     </categories>
     <style width="400" height="300" />
     <constraints>
-      <constraint on="questions" single="true" multiple="true" open="true" />
-      <constraint on="controls" responseblock="true" textbox="true" label="true" />
+      <constraint on="questions" single="true" multiple="true" open="true" chapter="false" date="false" numeric="false" requireParentLoop="false" />
+      <constraint on="controls" responseblock="true" textbox="true" label="true" checkbox="false" listbox="false" radiobutton="false" />
+      <constraint on="responses" max="*" min="*" />
     </constraints>
   </info>
   <outputs defaultOutput="fallback">

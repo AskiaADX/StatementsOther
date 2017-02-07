@@ -1,4 +1,4 @@
-﻿/* standard.css */
+/* standard.css */
 {%
 Dim responseColourPrimary =CurrentADC.PropValue("responseColourPrimary")
 Dim responseColourSecondary =CurrentADC.PropValue("responseColourSecondary")
@@ -110,7 +110,7 @@ Dim otherBorderRadius =CurrentADC.PropValue("otherBorderRadius")
 	
 	margin: {%= responseMargin%};
 	
-	height: {%= responseHeight%};
+	min-height: {%= responseHeight%};
 	width: {%= responseWidth%};
 }
 
