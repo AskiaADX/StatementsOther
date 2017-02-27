@@ -14,23 +14,6 @@
     vertical-align:middle;
 	cursor:pointer;
 	
-	/* Decoration */
-	border: 1px solid #000;
-	background: #fff; 
-	/*background: -webkit-gradient(linear, 0 0, 0 100%, from( #fff ) to( #cecece )); 
-	background: -webkit-linear-gradient( #fff , #cecece ); 
-	background: -moz-linear-gradient( 	 #fff , #cecece ); 
-	background: -ms-linear-gradient( 	 #fff , #cecece ); 
-	background: -o-linear-gradient( 	 #fff , #cecece ); 
-	background: linear-gradient( 		 #fff , #cecece ); 	
-	-pie-background: linear-gradient(	 #fff , #cecece ); */
-	
-	/* Effects */
-	-webkit-border-radius:	5px 5px 5px 5px; 
-	-moz-border-radius:		5px 5px 5px 5px; 
-	-khtml-border-radius:	5px 5px 5px 5px; 
-	border-radius:			5px 5px 5px 5px; 
-	
 	-webkit-transform: translate3d(0, 0, 0);
 	-webkit-backface-visibility: hidden;
 	-webkit-perspective: 1000;
@@ -42,9 +25,6 @@
 { 
 	display:block;
 	padding:10px;
-	line-height:140%;
-	font-size:12px;
-	color:#000;
 	
 	/* disable highlight text */
 	-moz-user-select: none; 
@@ -67,20 +47,10 @@
 
 .adc-statementsOther .responseItem.selected 
 {	
-    /* Decoration */	
-	background: #ff0000; 
-	/*background: -webkit-gradient(linear, 0 0, 0 100%, from( #ff0000 ) to( #990000 ));
-	background: -webkit-linear-gradient( #ff0000 , #990000 ); 
-	background: -moz-linear-gradient( 	 #ff0000 , #990000 ); 
-	background: -ms-linear-gradient( 	 #ff0000 , #990000 ); 
-	background: -o-linear-gradient( 	 #ff0000 , #990000 ); 
-	background: linear-gradient( 		 #ff0000 , #990000 ); 
-	-pie-background: linear-gradient(	 #ff0000 , #990000 ); */
 }
 
 .adc-statementsOther .responseItem.selected .response_text 
 {
-    color:#fff; 
 	
 	/* disable highlight text */
 	-moz-user-select: none; 
@@ -92,15 +62,6 @@
 .adc-statementsOther .otherText { 
 	display:block;
 	margin:10px;
-	line-height:140%;
-	font-size:12px;
-	color:#000;
-	border:2px solid #666;
-	/* Effects */
-	-webkit-border-radius:	5px 5px 5px 5px; 
-	-moz-border-radius:		5px 5px 5px 5px; 
-	-khtml-border-radius:	5px 5px 5px 5px; 
-	border-radius:			5px 5px 5px 5px; 
 	padding:5px;
 	
 	/* disable highlight text */
