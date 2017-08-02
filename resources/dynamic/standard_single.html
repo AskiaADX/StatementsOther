@@ -1,4 +1,4 @@
-﻿{%
+{%
 Dim inputName = CurrentQuestion.InputName()
 Dim inputValue = CurrentQuestion.InputValue()
 Dim caption
@@ -42,7 +42,7 @@ IF numberOfColumns > 0 Then
             {% For k = 1 To otherIDarray.Count 
             	otherID = otherIDarray[k].ToNumber()
             	IF index = otherID Then %}
-                    <div><textarea class="otherText" data-id="{%= k %}"></textarea></div>
+                    <div style="overflow:hidden"><textarea class="otherText" data-id="{%= k %}"></textarea></div>
                     <div style="clear:both"></div>
                 {% EndIF %}
             {% Next %}
@@ -80,7 +80,7 @@ Else
         {% For k = 1 To otherIDarray.Count 
         	otherID = otherIDarray[k].ToNumber()
             IF index = otherID Then %}
-                <div><textarea class="otherText" data-id="{%= k %}"></textarea></div>
+                <div style="overflow:hidden"><textarea class="otherText" data-id="{%= k %}"></textarea></div>
                 <div style="clear:both"></div>
             {% EndIF %}
         {% Next %}
