@@ -198,26 +198,27 @@
           
             for ( i=0; i < responseItems.length; i++ ) {
                 responseItems[i].style.display = "inline-block";
-                //responseItems[i].style.width = (100/options.columns) + '%';
+                responseItems[i].style.width = (100/options.columns) + '%';
             }
             
+            var style = responseItems[0].currentStyle || window.getComputedStyle(responseItems[0]),
+            	widthDiff = (responseItems[0].offsetWidth + parseFloat(style.marginLeft) + parseFloat(style.marginRight)) - responseItems[0].clientWidth,
+            	newWidth = ((columns[0].offsetWidth - (widthDiff * options.columns))/options.columns) - 10;
             for ( i = 0; i < responseItems.length; i++ ) {
-                responseItems[i].style.width = Math.floor( ((outerWidth(columns[0]) +  lrBorder(responseItems[0])) / options.columns)  ) - (4 * (options.columns+1)) + "px";
+                responseItems[i].style.width = newWidth+'px';
             }
             
-            var height = responseItems[0].offsetHeight;
-            var maxResponseHeight = responseItems[0].offsetHeight;
+            var maxResponseHeight = [];
             for ( i = 0; i < responseItems.length; i++) {
-                maxResponseHeight = Math.max(height, responseItems[i].offsetHeight);
-                //if ( responseItems[i].querySelector('.otherText') ) maxResponseHeight -= $(this).find('.otherText').outerHeight(true);
+                maxResponseHeight.push(responseItems[i].offsetHeight);
             }
-            
+            var maxHeight = Math.max.apply(null, maxResponseHeight);
             for ( i = 0; i < responseItems.length; i++ ) {
                 if ( responseItems[i].querySelector('.otherText') ) {
                     responseItems[i].style.height = "auto";
-                    responseItems[i].style.minHeight = maxResponseHeight + "px";
+                    responseItems[i].style.minHeight = maxHeight + "px";
                 } else {
-                    responseItems[i].style.height = maxResponseHeight+'px';
+                    responseItems[i].style.height = maxHeight+'px';
                 }
                 
             }
@@ -225,8 +226,11 @@
 		}
 		
 		// Other
-        container.parentNode.querySelector('.otherText').style.width = responseItems[0].clientWidth - 30;
-        container.parentNode.querySelector('.otherText').style.display = "none";
+        var otherElems = container.parentNode.querySelectorAll('.otherText');
+        for ( i = 0; i < otherElems.length; i++ ) {
+			otherElems[i].style.width = (responseItems[0].offsetWidth - 35) + 'px';
+        	otherElems[i].style.display = "none";
+        }
 
 		var i;
 		for (i = 0; i < otherQIDarray.length; ++i) {
@@ -376,7 +380,7 @@
         // Attach all events
         for ( i=0; i<responseItems.length; i++) {   
             responseItems[i].onclick = function(e){
-                (!isMultiple) ? selectStatementSingle(this) : selectStatementMulitple(this);
+                (!isMultiple) ? selectStatementSingle(this) : selectStatementMultiple(this);
             };
         }
         
@@ -480,7 +484,7 @@
 
         // Select a statement for multiple
         // @this = target node
-        function selectStatementMulitple(target) {
+        function selectStatementMultiple(target) {
             var value = target.getAttribute('data-value'),
                  input = document.querySelector(items[target.getAttribute('data-id')].element),
                  isExclusive = Boolean(items[target.getAttribute('data-id')].isExclusive),
@@ -567,7 +571,7 @@
             }
         }
 		
-		container.querySelector( '.otherText' ).blur();  
+		container.querySelector('.otherText').blur();  
         
         function addEvent(el, type, handler) {
             if (el.attachEvent) el.attachEvent('on'+type, handler); else el.addEventListener(type, handler);
@@ -588,7 +592,7 @@
             }, false);
         }
                 
-        container.querySelector( '.otherText' ).onclick = function(e) {
+        container.querySelector('.otherText').onclick = function(e) {
 			e.stopPropagation();
 		};
         
