@@ -184,7 +184,8 @@
             container.style.margin = '0 0 0 auto';
 		}
         
-        if ( options.columns > 1 )  {
+        var screenWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        if ( options.columns > 1 && screenWidth > 480 )  {
 			
 			// Try to make all the repsonses the same height
            	for ( i=0; i < responseItems.length; i++ ) {
