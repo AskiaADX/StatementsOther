@@ -168,7 +168,7 @@
                submitBtns.push(inputs[i]);
             }
         }
-        nextBtn = submitBtns[submitBtns.length-2];
+        nextBtn = submitBtns[submitBtns.length-1];
 		
 		var otherQIDarray = String(options.otherQID).split(","),
 			otherRIDarray = String(options.otherRID).split(",");
