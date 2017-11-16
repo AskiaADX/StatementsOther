@@ -147,6 +147,7 @@
 		(options.autoForward = Boolean(options.autoForward));
 		(options.useRange = Boolean(options.useRange));
         (options.currentQuestion = options.currentQuestion || '');
+        (options.mergeColumnWidth = parseInt(options.mergeColumnWidth, 10) || 480);
         
         this.instanceId = options.instanceId || 1;
         polyfillGetElementsByClassName();
@@ -185,7 +186,7 @@
 		}
         
         var screenWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-        if ( options.columns > 1 && screenWidth > 480 )  {
+        if ( options.columns > 1 && screenWidth > options.mergeColumnWidth )  {
 			
 			// Try to make all the repsonses the same height
            	for ( i=0; i < responseItems.length; i++ ) {
