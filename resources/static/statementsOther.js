@@ -148,6 +148,7 @@
 		(options.useRange = Boolean(options.useRange));
         (options.currentQuestion = options.currentQuestion || '');
         (options.mergeColumnWidth = parseInt(options.mergeColumnWidth, 10) || 480);
+        (options.responseHeight = options.responseHeight || '');
         
         this.instanceId = options.instanceId || 1;
         polyfillGetElementsByClassName();
@@ -214,7 +215,11 @@
             for ( i = 0; i < responseItems.length; i++) {
                 maxResponseHeight.push(responseItems[i].offsetHeight);
             }
-            var maxHeight = Math.max.apply(null, maxResponseHeight);
+            
+            var maxHeight = options.responseHeight;
+            if (maxHeight === 'auto') {
+            	maxHeight = Math.max.apply(null, maxResponseHeight);   
+            }
             for ( i = 0; i < responseItems.length; i++ ) {
                 if ( responseItems[i].querySelector('.otherText') ) {
                     responseItems[i].style.height = "auto";

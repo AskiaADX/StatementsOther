@@ -19,6 +19,7 @@
 	-webkit-perspective: 1000;
 	
 	position:relative;
+    box-sizing: border-box;
 }
 
 .adc-statementsOther .response_text 

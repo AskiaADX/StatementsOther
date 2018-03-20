@@ -29,6 +29,7 @@
 		otherQID : '{%= CurrentADC.PropValue("otherQID") %}',
 		rangeGradientDirection : '{%= CurrentADC.PropValue("rangeGradientDirection") %}',
         mergeColumnWidth : '{%= CurrentADC.PropValue("mergeColumnWidth") %}',
+        responseHeight : '{%= CurrentADC.PropValue("responseHeight") %}',
 		{% IF CurrentADC.PropValue("useRange") = "1" Then %}
 			range: '{%= CurrentADC.PropValue("responseColourPrimary") %};{%= CurrentADC.PropValue("responseColourPrimary") %};{%= CurrentADC.PropValue("responseColourRangePrimary") %};{%= CurrentADC.PropValue("responseColourRangePrimary") %}',
 		{% EndIF %}
