@@ -643,7 +643,10 @@
                 revealEl( responseItems[i], 100+ (i*50) );
             }
         }
-        setTimeout(function(){ document.querySelector("#adc_" + this.instanceId).style.visibility = 'visible'; }, 300);
+        setTimeout(
+            (function(passedElement){ 
+                document.querySelector("#adc_" + passedElement).style.visibility = 'visible';
+            }(this.instanceId)) , 300);
     }
     	
 	window.StatementsOther = StatementsOther;
