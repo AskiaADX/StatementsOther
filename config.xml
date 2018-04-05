@@ -37,7 +37,8 @@
 		v2.0.6 - Added Merge column width parameter
 		v2.0.7 - Fixed AutoForward
 		v2.0.8 - Fixed AutoForward
-		v2.0.10 - Fixed visibility of the adc when used in loop with vertical sub form]]></description>
+		v2.0.10 - Fixed visibility of the adc when used in loop with vertical sub form
+		v2.0.11 - Fixed hover styling for small screen]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
     <site>http://www.askia.com</site>
