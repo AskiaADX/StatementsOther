@@ -548,22 +548,32 @@
                         removeClass(selectedElements[i], 'selected');
                     }
                     currentValue = value;
-                    
                     if ( otherRIDarray.indexOf(target.getAttribute('data-index')) == -1 ) {
                         
-						target.parentNode.querySelector('.otherText').value = '';
+						var targetOthers = target.parentNode.querySelectorAll('.otherText');
+                        for (j1 = 0; j1 < targetOthers.length; ++j1) {
+                            targetOthers[j1].value = '';
+                        }
+                            
                         for (i = 0; i < otherQIDarray.length; ++i) {
                             if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
                         }
-                        target.parentNode.querySelector('.otherText').style.display = 'none';
+                        for (j2 = 0; j2 < targetOthers.length; ++j2) {
+                            targetOthers[j2].style.display = 'none';
+                        }
                         
 					} else {
                         
-                        target.parentNode.querySelector('.otherText').value = '';
+                        var targetOthers = target.parentNode.querySelectorAll('.otherText');
+                        for (j1 = 0; j1 < targetOthers.length; ++j1) {
+                            targetOthers[j1].value = '';
+                        }
                         for (i = 0; i < otherQIDarray.length; ++i) {
                             if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
                         }
-                        target.parentNode.querySelector('.otherText').style.display = 'none';
+                        for (j2 = 0; j2 < targetOthers.length; ++j2) {
+                            targetOthers[j2].style.display = 'none';
+                        }
                         target.querySelector('.otherText').style.display = '';
                         target.querySelector('.otherText').focus();
 					}
