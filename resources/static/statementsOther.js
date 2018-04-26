@@ -210,10 +210,11 @@
             for ( i = 0; i < responseItems.length; i++ ) {
                 responseItems[i].style.width = newWidth+'px';
             }
-            
             var maxResponseHeight = [];
             for ( i = 0; i < responseItems.length; i++) {
-                maxResponseHeight.push(responseItems[i].offsetHeight);
+                if ( !responseItems[i].querySelector('.otherText') ) {
+                	maxResponseHeight.push(responseItems[i].offsetHeight);
+                }
             }
             
             var maxHeight = options.responseHeight;
