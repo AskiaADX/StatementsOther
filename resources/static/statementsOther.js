@@ -483,9 +483,8 @@
 				target.querySelector('.otherText').style.display = '';
                 target.querySelector('.otherText').focus();
 			}
-            
             // if auto forward do something
-            if ( options.autoForward && otherRIDarray.indexOf(target.getAttribute('data-index')) >= 0 ) {
+            if ( options.autoForward && (otherRIDarray.indexOf(target.dataset.index) === -1 )) {
                 nextBtn.click();
             }
         }
