@@ -7,7 +7,7 @@
   <info>
     <name>StatementsOther</name>
     <guid>1175ae20-499c-4a62-8dc3-d3f495c29530</guid>
-    <version>2.0.15</version>
+    <version>2.0.16</version>
     <date>2013-07-26</date>
     <description><![CDATA[Describe your ADC here
         v1.0.5 - removed CSS3 Pie
@@ -42,7 +42,8 @@
 		v2.0.12 - Fixed textarea visibility when unselected by exclusive response
 		v2.0.13 - Fixed height when nb colmuns > 1
 		v2.0.14 - Fixed auto forward
-		v2.0.15 - Added Flow direction]]></description>
+		v2.0.15 - Added Flow direction
+		v2.0.16 - Fixed Other text in database when unselect other]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
     <site>http://www.askia.com</site>

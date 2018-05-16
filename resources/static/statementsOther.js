@@ -468,21 +468,20 @@
 
             addClass(target, 'selected');
             input.value = value;
-            if (window.askia && window.arrLiveRoutingShortcut && window.arrLiveRoutingShortcut.length > 0 && window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
-                askia.triggerAnswer();
-            }
             
-            container.parentNode.querySelector('.otherText').value = '';
-			for (i = 0; i < otherQIDarray.length; ++i) {
-				if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
-			}
-            container.parentNode.querySelector('.otherText').style.display = 'none';
-                       
-            if ( otherRIDarray.indexOf(target.getAttribute('data-index')) >= 0 ) {
-                var otherID = otherRIDarray.indexOf(target.getAttribute('data-index'));
+            if (otherRIDarray.indexOf(target.dataset.index) === -1) {
+            	container.parentNode.querySelector('.otherText').value = '';
+                for (i = 0; i < otherQIDarray.length; ++i) {
+                    if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
+                }
+                container.parentNode.querySelector('.otherText').style.display = 'none';
+            } else {
 				target.querySelector('.otherText').style.display = '';
                 target.querySelector('.otherText').focus();
 			}
+            if (window.askia && window.arrLiveRoutingShortcut && window.arrLiveRoutingShortcut.length > 0 && window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
+                askia.triggerAnswer();
+            }
             // if auto forward do something
             if ( options.autoForward && (otherRIDarray.indexOf(target.dataset.index) === -1 )) {
                 nextBtn.click();
@@ -492,22 +491,22 @@
         // Select a statement for multiple
         // @this = target node
         function selectStatementMultiple(target) {
-            var value = target.getAttribute('data-value'),
-                 input = document.querySelector(items[target.getAttribute('data-id')].element),
-                 isExclusive = Boolean(items[target.getAttribute('data-id')].isExclusive),
+            var value = target.dataset.value,
+                 input = document.querySelector(items[target.dataset.id].element),
+                 isExclusive = Boolean(items[target.dataset.id].isExclusive),
                  currentValue = input.value;
 
             if (hasClass(target, 'selected')) {
                 // Un-select
-                target.style.filter = restoreRangeColour( target.getAttribute('data-id') );
+                target.style.filter = restoreRangeColour( target.dataset.id );
                 removeClass(target, 'selected');
                 currentValue = removeValue(currentValue, value);
                 
-                if ( otherRIDarray.indexOf(target.getAttribute('data-index')) >= 0 ) {
-                    var otherID = otherRIDarray.indexOf(target.getAttribute('data-index'));
+                if ( otherRIDarray.indexOf(target.dataset.index) !== -1 ) {
+                    var otherID = otherRIDarray.indexOf(target.dataset.index);
                     target.querySelector('.otherText').style.display = 'none';
                     target.querySelector('.otherText').value = '';
-                    if ( otherID != '' ) document.getElementById(otherQIDarray[otherID]).value = '';
+                    if ( otherID !== -1 ) document.getElementById(otherQIDarray[otherID]).value = '';
 				}
                 
             } else {
@@ -516,8 +515,7 @@
                     // Check if any exclusive
                     currentValue = addValue(currentValue, value);
                     
-                    if ( otherRIDarray.indexOf(target.getAttribute('data-index')) >= 0 ) {
-                        var otherID = otherRIDarray.indexOf(target.getAttribute('data-index'));
+                    if ( otherRIDarray.indexOf(target.dataset.index) !== -1 ) {
                         target.querySelector('.otherText').style.display = '';
                         target.querySelector('.otherText').focus();
                     }
@@ -526,15 +524,15 @@
                     var exclusiveElements = [].slice.call(container.getElementsByClassName('exclusive'));
 
                     for ( i=0; i<exclusiveElements.length; i++) {
-                        exclusiveElements[i].style.filter = restoreRangeColour( exclusiveElements[i].getAttribute('data-id') );
+                        exclusiveElements[i].style.filter = restoreRangeColour( exclusiveElements[i].dataset.id );
                         removeClass(exclusiveElements[i], 'selected');
-                        currentValue = removeValue(currentValue, exclusiveElements[i].getAttribute('data-value'));
+                        currentValue = removeValue(currentValue, exclusiveElements[i].dataset.value);
                         
-                        if ( otherRIDarray.indexOf(exclusiveElements[i].getAttribute('data-index')) >= 0 ) {
-                            var otherID = otherRIDarray.indexOf(exclusiveElements[i].getAttribute('data-index'));
+                        if ( otherRIDarray.indexOf(exclusiveElements[i].dataset.index) !== -1 ) {
+                            var otherID = otherRIDarray.indexOf(exclusiveElements[i].dataset.index);
                             exclusiveElements[i].querySelector('.otherText').style.display = 'none';
                             exclusiveElements[i].querySelector('.otherText').value = '';
-                            if ( otherID != '' ) document.getElementById(otherQIDarray[otherID]).value = '';
+                            if ( otherID !== -1 ) document.getElementById(otherQIDarray[otherID]).value = '';
                         }
                     }
 
@@ -544,17 +542,16 @@
                     var exclusiveElements = [].slice.call(container.getElementsByClassName('exclusive'));
                     var selectedElements = [].slice.call(container.getElementsByClassName('selected'));
                     for ( i=0; i<selectedElements.length; i++) {
-                        selectedElements[i].style.filter = restoreRangeColour( selectedElements[i].getAttribute('data-id') );
+                        selectedElements[i].style.filter = restoreRangeColour( selectedElements[i].dataset.id );
                         removeClass(selectedElements[i], 'selected');
                     }
                     currentValue = value;
-                    if ( otherRIDarray.indexOf(target.getAttribute('data-index')) == -1 ) {
+                    if ( otherRIDarray.indexOf(target.dataset.index) === -1 ) {
                         
 						var targetOthers = target.parentNode.querySelectorAll('.otherText');
                         for (j1 = 0; j1 < targetOthers.length; ++j1) {
                             targetOthers[j1].value = '';
                         }
-                            
                         for (i = 0; i < otherQIDarray.length; ++i) {
                             if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
                         }
