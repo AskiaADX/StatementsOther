@@ -43,9 +43,9 @@ IF numberOfColumns > 0 Then
           
         <div class="responseItem" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">
             {% IF image <> "" Then %}
-                <img src="{%= image %}" unselectable='on' onselectstart='return false;' onmousedown='return false;' />
+                <img src="{%= image %}" onmousedown='return false;' alt="{%:= caption %}"/>
             {% EndIF %}
-            <span class="response_text" unselectable='on' onselectstart='return false;' onmousedown='return false;'>{%:= caption %}</span>
+            <span class="response_text" onmousedown='return false;'>{%:= caption %}</span>
             <div style="clear:both"></div>
             {% For k = 1 To otherIDarray.Count 
             	otherID = otherIDarray[k].ToNumber()
@@ -81,14 +81,14 @@ Else
     %}
     <div class="responseItem" data-value="{%= inputValue %}" data-id="{%= j %}" data-index="{%= index %}">
         {% IF image <> "" Then %}
-            <img src="{%= image %}" unselectable='on' onselectstart='return false;' onmousedown='return false;' />
+            <img src="{%= image %}" onmousedown='return false;' alt="{%:= caption %}"/>
         {% EndIF %}
-        <span class="response_text" unselectable='on' onselectstart='return false;' onmousedown='return false;'>{%:= caption %}</span>
+        <span class="response_text"  onmousedown='return false;'>{%:= caption %}</span>
         <div style="clear:both"></div>
         {% For k = 1 To otherIDarray.Count 
         	otherID = otherIDarray[k].ToNumber()
             IF index = otherID Then %}
-                <div style="overflow:hidden"><textarea class="otherText" data-id="{%= k %}"></textarea></div>
+                <div style="overflow:hidden"><textarea id="textarea-{%= k %}" class="otherText" data-id="{%= k %}"></textarea><label for="textarea-{%= k %}" hidden>Textarea</label></div>
                 <div style="clear:both"></div>
             {% EndIF %}
         {% Next %}

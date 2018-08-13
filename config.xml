@@ -43,7 +43,9 @@
 		v2.0.13 - Fixed height when nb colmuns > 1
 		v2.0.14 - Fixed auto forward
 		v2.0.15 - Added Flow direction
-		v2.0.16 - Fixed Other text in database when unselect other]]></description>
+		v2.0.16 - Fixed Other text in database when unselect other
+		v2.0.17 - Added alt attribute to img
+				- Added labels to textarea]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
     <site>http://www.askia.com</site>
