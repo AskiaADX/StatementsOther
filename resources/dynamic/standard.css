@@ -253,3 +253,17 @@ Dim otherBorderRadius =CurrentADC.PropValue("otherBorderRadius")
 	box-shadow: {%= otherShadow%};
 	
 }
+
+/* Instead of attribute unselectable and onselectstart not allowed for div in HTML5 */
+#adc_{%= CurrentADC.InstanceId%} .response_text , 
+#adc_{%= CurrentADC.InstanceId%} img  {
+        user-select: none;
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -o-user-select: none;
+}
+
+
+
+
