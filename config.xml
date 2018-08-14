@@ -45,8 +45,8 @@
 		v2.0.15 - Added Flow direction
 		v2.0.16 - Fixed Other text in database when unselect other
 		v2.0.17 - Added alt attribute to img
-				- Added labels to textarea
-				- Modifications for HTML5 compatibility]]></description>
+				   - Added aria-labels to textarea
+				   - Modifications for HTML5 compatibility]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
     <site>http://www.askia.com</site>

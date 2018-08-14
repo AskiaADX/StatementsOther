@@ -95,7 +95,7 @@ Else
         {% For k = 1 To otherIDarray.Count 
             otherID = otherIDarray[k].ToNumber()
             IF index = otherID Then %}
-                <div style="overflow:hidden"><textarea id="textarea-{%= k %}" class="otherText" data-id="{%= k %}"></textarea><label for="textarea-{%= k %}" hidden>Textarea</label></div>
+                <div style="overflow:hidden"><textarea aria-label="Other" class="otherText" data-id="{%= k %}"></textarea></div>
                 <div style="clear:both"></div>
 			{% EndIF %}
     	{% Next %}
