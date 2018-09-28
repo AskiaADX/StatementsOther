@@ -7,7 +7,7 @@
   <info>
     <name>StatementsOther</name>
     <guid>1175ae20-499c-4a62-8dc3-d3f495c29530</guid>
-    <version>2.0.18</version>
+    <version>2.0.19</version>
     <date>2013-07-26</date>
     <description><![CDATA[Describe your ADC here
         v1.0.5 - removed CSS3 Pie
@@ -47,7 +47,8 @@
 		v2.0.17 - Added alt attribute to img
 				   - Added aria-labels to textarea
 				   - Modifications for HTML5 compatibility
-		v2.0.18 - Fixed closing div]]></description>
+		v2.0.18 - Fixed closing div
+		v2.0.19 - Fixed textbox visibility when single closed question and multiple others]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
     <site>http://www.askia.com</site>

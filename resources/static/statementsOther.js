@@ -464,6 +464,11 @@
             for ( i=0; i<selectedElements.length; i++) {
                 selectedElements[i].style.filter = restoreRangeColour( selectedElements[i].getAttribute('data-id') );
                 removeClass(selectedElements[i], 'selected');
+                if (selectedElements[i].querySelector('.otherText') !== null) {
+                	selectedElements[i].querySelector('.otherText').style.display = 'none';
+                    selectedElements[i].querySelector('.otherText').value = '';
+                    selectedElements[i].querySelector('.otherText').defaultValue = '';    
+                }
             }
 
             addClass(target, 'selected');
