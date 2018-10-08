@@ -481,6 +481,9 @@
                 }
                 container.parentNode.querySelector('.otherText').style.display = 'none';
             } else {
+                for (i = 0; i < otherQIDarray.length; ++i) {
+                    if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
+                }
 				target.querySelector('.otherText').style.display = '';
                 target.querySelector('.otherText').focus();
 			}
