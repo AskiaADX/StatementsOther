@@ -1,5 +1,5 @@
 (function () {
-	
+
     // Polyfill: Add a getElementsByClassName function IE < 9
     function polyfillGetElementsByClassName() {
         if (!document.getElementsByClassName) {
@@ -27,7 +27,7 @@
             };
         }
 	}
-    
+
     function hasClass(el, className) {
 		return el.classList ? el.classList.contains(className) : new RegExp('\\b'+ className+'\\b').test(el.className);
 	}
@@ -41,17 +41,17 @@
 		if (el.classList) el.classList.remove(className);
 		else el.className = el.className.replace(new RegExp('\\b'+ className+'\\b', 'g'), '');
 	}
-    
+
     function tbBorder(el) {
 			var margin = el.offsetHeight - el.clientHeight;
 			return margin;
 		}
-		
+
 		function lrBorder(el) {
 			var margin = el.offsetWidth - el.clientWidth;
 			return margin;
 		}
-		
+
 		function outerHeight(el) {
 		  var height = el.offsetHeight;
 		  var style = el.currentStyle || getComputedStyle(el);
@@ -59,7 +59,7 @@
 		  height += parseInt(style.marginTop) + parseInt(style.marginBottom);
 		  return height;
 		}
-		
+
 		function outerWidth(el) {
 		  var width = el.offsetWidth;
 		  var style = el.currentStyle || getComputedStyle(el);
@@ -81,11 +81,11 @@
 	}
 	function rgbToHex(arg) {
 		arg = parseInt(arg, 10).toString(16);
-		return arg.length === 1 ? '0' + arg : arg; 
+		return arg.length === 1 ? '0' + arg : arg;
 	}
 	function processRgb(arg) {
 		arg = arg.split(',');
-	
+
 		if ( (arg.length === 3 || arg.length === 4) && isRgb(arg[0]) && isRgb(arg[1]) && isRgb(arg[2]) ) {
 			if (arg.length === 4 && !isNumeric(arg[3])) { return null; }
 			return '#' + rgbToHex(arg[0]).toUpperCase() + rgbToHex(arg[1]).toUpperCase() + rgbToHex(arg[2]).toUpperCase();
@@ -93,13 +93,13 @@
 			return null;
 		}
 	}
-	
+
 	function StatementsOther(options) {
         this.instanceId = options.instanceId || 1;
         var container = document.getElementById("adc_" + this.instanceId),
             images = [].slice.call(container.getElementsByTagName("img")),
         	total_images = container.getElementsByTagName("img").length;
-		
+
         function loadImages( images, callback ) {
             var count = 0;
 
@@ -133,9 +133,9 @@
                 init(options);
             }
         });
-        
+
     }
-    
+
     function init(options) {
 
         this.options = options;
@@ -149,7 +149,7 @@
         (options.currentQuestion = options.currentQuestion || '');
         (options.mergeColumnWidth = parseInt(options.mergeColumnWidth, 10) || 480);
         (options.responseHeight = options.responseHeight || '');
-        
+
         this.instanceId = options.instanceId || 1;
         polyfillGetElementsByClassName();
 		var container = document.getElementById("adc_" + this.instanceId),
@@ -163,47 +163,47 @@
             items = options.items,
         	isMultiple = options.isMultiple,
             animateResponses = Boolean(options.animateResponses);
-        
+
         for(var i = 0; i < inputs.length; i++) {
             if(inputs[i].type.toLowerCase() === 'submit') {
                submitBtns.push(inputs[i]);
             }
         }
         nextBtn = document.getElementsByName('Next')[0];
-		
+
 		var otherQIDarray = String(options.otherQID).split(","),
 			otherRIDarray = String(options.otherRID).split(",");
-								
+
 		container.style.maxWidth = options.maxWidth;
         container.style.width = options.controlWidth;
         container.parentNode.style.width = '100%';
         container.parentNode.style.overflow = 'hidden';
-		
+
 		if ( options.controlAlign === "center" ) {
             container.parentNode.style.textAlign = 'center';
             container.style.margin = '0px auto';
 		} else if ( options.controlAlign === "right" ) {
             container.style.margin = '0 0 0 auto';
 		}
-        
+
         var screenWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         if ( options.columns > 1 && screenWidth > options.mergeColumnWidth )  {
-			
+
 			// Try to make all the repsonses the same height
            	for ( i=0; i < responseItems.length; i++ ) {
                 responseItems[i].style.height = "";
             }
-            
+
             for ( i=0; i < columns.length; i++ ) {
                 columns[i].style.display = "block";
                 columns[i].style.width = '100%';
             }
-          
+
             for ( i=0; i < responseItems.length; i++ ) {
                 responseItems[i].style.display = "inline-block";
                 responseItems[i].style.width = (100/options.columns) + '%';
             }
-            
+
             var style = responseItems[0].currentStyle || window.getComputedStyle(responseItems[0]),
             	widthDiff = (responseItems[0].offsetWidth + parseFloat(style.marginLeft) + parseFloat(style.marginRight)) - responseItems[0].clientWidth,
             	newWidth = ((columns[0].offsetWidth - (widthDiff * options.columns))/options.columns) - 10;
@@ -216,10 +216,10 @@
                 	maxResponseHeight.push(responseItems[i].offsetHeight);
                 }
             }
-            
+
             var maxHeight = options.responseHeight;
             if (maxHeight === 'auto') {
-            	maxHeight = Math.max.apply(null, maxResponseHeight);   
+            	maxHeight = Math.max.apply(null, maxResponseHeight);
             }
             for ( i = 0; i < responseItems.length; i++ ) {
                 if ( responseItems[i].querySelector('.otherText') ) {
@@ -228,11 +228,11 @@
                 } else {
                     responseItems[i].style.height = maxHeight+'px';
                 }
-                
+
             }
 
 		}
-		
+
 		// Other
         var otherElems = container.parentNode.querySelectorAll('.otherText');
         for ( i = 0; i < otherElems.length; i++ ) {
@@ -251,7 +251,7 @@
                 // error message
             }
 		}
-        
+
         // Check for missing images and resize
         for ( i=0; i<images.length; i++) {
             var size = {
@@ -284,7 +284,7 @@
                     size.height *= ratio;
                 }
 
-            } 
+            }
             images[i].width = size.width;
             images[i].height = size.height;
         }
@@ -319,10 +319,10 @@
             var rainbow2 = new Rainbow();
                 rainbow2.setSpectrum(processRgb(rangeArray[1]), processRgb(rangeArray[3]));
                 rainbow2.setNumberRange(0, maxNumber);
-            
+
             var nsItems = responseItems.slice(0, (options.numberNS > 0) ? 0-options.numberNS : responseItems.length);
             for ( i=0; i<nsItems.length; i++) {
-                if ( options.rangeGradientDirection === 'ltr' ) { 
+                if ( options.rangeGradientDirection === 'ltr' ) {
                     nsItems[i].style.backgroundColor = '#'+rainbow1.colourAt(i);
                     addClass( nsItems[i], 'active' );
                     removeClass( nsItems[i], 'active' );
@@ -333,13 +333,13 @@
                 }
             }
         }
-        
+
         // Fix column width
 		/*if ( parseInt(options.columns) > 1 && ( ($(this).find('.responseItem').eq(0).outerWidth(true) * parseInt(options.columns)) >= $(this).find('.column').eq(0).width() ) ) {
 			var colWidthDiff = Math.ceil(($(this).find('.column').eq(0).width() - ($(this).find('.responseItem').eq(0).outerWidth(true) * parseInt(options.columns)))*0.5);
 			$(this).find('.responseItem').width( $(this).find('.responseItem').eq(0).width() - (colWidthDiff + 1));
 		}*/
-        
+
         // Retrieve previous selection
         if ( !isMultiple ) {
             var input = items[0].element,
@@ -365,10 +365,10 @@
             var input = document.querySelector(items[0].element),
                 currentValues = String(input.value).split(","),
                 currentValue;
-            
+
             for ( i=0; i<currentValues.length; i++ ) {
                 currentValue = currentValues[i];
-                for ( var j=0; j<responseItems.length; j++) {   
+                for ( var j=0; j<responseItems.length; j++) {
                     if ( !hasClass( responseItems[j], 'exclusive' ) ) addClass( responseItems[j], 'cb' );
                     responseItems[j].setAttribute('data-id', j);
                     var value = responseItems[j].getAttribute('data-value'),
@@ -386,12 +386,12 @@
         }
 
         // Attach all events
-        for ( i=0; i<responseItems.length; i++) {   
+        for ( i=0; i<responseItems.length; i++) {
             responseItems[i].onclick = function(e){
                 (!isMultiple) ? selectStatementSingle(this) : selectStatementMultiple(this);
             };
         }
-        
+
         function restoreRangeColour(index) {
 
             if ( options.useRange && !hasClass(responseItems[index], 'ns') ) {
@@ -405,22 +405,22 @@
                     rainbow2.setSpectrum(processRgb(rangeArray[1]), processRgb(rangeArray[3]));
                     rainbow2.setNumberRange(0, maxNumber);
 
-                if ( options.rangeGradientDirection === 'ltr' ) { 
+                if ( options.rangeGradientDirection === 'ltr' ) {
                     return 'progid:DXImageTransform.Microsoft.gradient( startColorstr=#'+rainbow1.colourAt(index)+', endColorstr=#'+rainbow2.colourAt(index)+',GradientType=1 )';
                 } else {
                     return 'progid:DXImageTransform.Microsoft.gradient( startColorstr=#'+rainbow1.colourAt(index)+', endColorstr=#'+rainbow2.colourAt(index)+',GradientType=0 )';
                 }
 
             } else {
-                return '';	
+                return '';
             }
         }
-        
+
         // For multi-coded question
         // Add the @valueToAdd in @currentValue (without duplicate)
         // and return the new value
         function addValue(currentValue, valueToAdd) {
-            
+
             if (currentValue === '' || currentValue === null) {
                 return valueToAdd;
             }
@@ -467,19 +467,23 @@
                 if (selectedElements[i].querySelector('.otherText') !== null) {
                 	selectedElements[i].querySelector('.otherText').style.display = 'none';
                     selectedElements[i].querySelector('.otherText').value = '';
-                    selectedElements[i].querySelector('.otherText').defaultValue = '';    
+                    selectedElements[i].querySelector('.otherText').defaultValue = '';
                 }
             }
 
             addClass(target, 'selected');
             input.value = value;
-            
+
             if (otherRIDarray.indexOf(target.dataset.index) === -1) {
-            	container.parentNode.querySelector('.otherText').value = '';
+							if (container.parentNode.querySelector('.otherText')) {
+								container.parentNode.querySelector('.otherText').value = '';
+							}
                 for (i = 0; i < otherQIDarray.length; ++i) {
                     if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
                 }
-                container.parentNode.querySelector('.otherText').style.display = 'none';
+								if (container.parentNode.querySelector('.otherText')) {
+									container.parentNode.querySelector('.otherText').style.display = 'none';
+								}
             } else {
                 for (i = 0; i < otherQIDarray.length; ++i) {
                     if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
@@ -509,20 +513,20 @@
                 target.style.filter = restoreRangeColour( target.dataset.id );
                 removeClass(target, 'selected');
                 currentValue = removeValue(currentValue, value);
-                
+
                 if ( otherRIDarray.indexOf(target.dataset.index) !== -1 ) {
                     var otherID = otherRIDarray.indexOf(target.dataset.index);
                     target.querySelector('.otherText').style.display = 'none';
                     target.querySelector('.otherText').value = '';
                     if ( otherID !== -1 ) document.getElementById(otherQIDarray[otherID]).value = '';
 				}
-                
+
             } else {
                 // Select
                 if (!isExclusive) {
                     // Check if any exclusive
                     currentValue = addValue(currentValue, value);
-                    
+
                     if ( otherRIDarray.indexOf(target.dataset.index) !== -1 ) {
                         target.querySelector('.otherText').style.display = '';
                         target.querySelector('.otherText').focus();
@@ -535,7 +539,7 @@
                         exclusiveElements[i].style.filter = restoreRangeColour( exclusiveElements[i].dataset.id );
                         removeClass(exclusiveElements[i], 'selected');
                         currentValue = removeValue(currentValue, exclusiveElements[i].dataset.value);
-                        
+
                         if ( otherRIDarray.indexOf(exclusiveElements[i].dataset.index) !== -1 ) {
                             var otherID = otherRIDarray.indexOf(exclusiveElements[i].dataset.index);
                             exclusiveElements[i].querySelector('.otherText').style.display = 'none';
@@ -555,7 +559,7 @@
                     }
                     currentValue = value;
                     if ( otherRIDarray.indexOf(target.dataset.index) === -1 ) {
-                        
+
 						var targetOthers = target.parentNode.querySelectorAll('.otherText');
                         for (j1 = 0; j1 < targetOthers.length; ++j1) {
                             targetOthers[j1].value = '';
@@ -566,9 +570,9 @@
                         for (j2 = 0; j2 < targetOthers.length; ++j2) {
                             targetOthers[j2].style.display = 'none';
                         }
-                        
+
 					} else {
-                        
+
                         var targetOthers = target.parentNode.querySelectorAll('.otherText');
                         for (j1 = 0; j1 < targetOthers.length; ++j1) {
                             targetOthers[j1].value = '';
@@ -592,9 +596,11 @@
                 askia.triggerAnswer();
             }
         }
-		
-		container.querySelector('.otherText').blur();  
-        
+
+			if (container.querySelector('.otherText')) {
+				container.querySelector('.otherText').blur();
+			}
+
         function addEvent(el, type, handler) {
             if (el.attachEvent) el.attachEvent('on'+type, handler); else el.addEventListener(type, handler);
         }
@@ -605,19 +611,21 @@
         for ( i=0; i<otherTextItems.length; i++ ) {
             addEvent(otherTextItems[i], 'keyup', function(e) {
                 document.getElementById(otherQIDarray[ parseInt(e.target.getAttribute("data-id"))-1 ]).value = e.target.value;
-                if (window.askia 
-                    && window.arrLiveRoutingShortcut 
+                if (window.askia
+                    && window.arrLiveRoutingShortcut
                     && window.arrLiveRoutingShortcut.length > 0
                     && window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
                     askia.triggerAnswer();
                 }
             }, false);
         }
-                
-        container.querySelector('.otherText').onclick = function(e) {
-			e.stopPropagation();
-		};
-        
+
+		if(container.querySelector('.otherText')){
+			container.querySelector('.otherText').onclick = function(e) {
+				e.stopPropagation();
+			};
+		}
+
         function scrollTo(element, to, duration) {
             if (duration <= 0) return;
             var difference = to - element.scrollTop;
@@ -629,11 +637,11 @@
                 scrollTo(element, to, duration - 10);
             }, 10);
         }
-        
+
         // if error scroll to top
-        if ( document.getElementById('error-summary') || document.getElementsByClassName('error') ) 
+        if ( document.getElementById('error-summary') || document.getElementsByClassName('error') )
             scrollTo(document.body, 0, 600);
-		
+
 		// animate
         if ( animateResponses ){
 			for ( i=0; i<responseItems.length; i++ ) {
@@ -641,7 +649,7 @@
                 addClass(responseItems[i], 'animate');
             }
         }
-        
+
         function revealEl(el, delay) {
             setTimeout(function(){
                 el.style.top = "0px";
@@ -650,8 +658,8 @@
                 removeClass(el,'animate');
             }, 500);
         }
-        
-        // reveal control      
+
+        // reveal control
         // container.style.visibility = "visible";
         if ( animateResponses ){
 			for ( i=0; i<responseItems.length; i++ ) {
@@ -659,10 +667,10 @@
             }
         }
         setTimeout(
-            (function(passedElement){ 
+            (function(passedElement){
                 document.querySelector("#adc_" + passedElement).style.visibility = 'visible';
             }(this.instanceId)) , 300);
     }
-    	
+
 	window.StatementsOther = StatementsOther;
 }());
