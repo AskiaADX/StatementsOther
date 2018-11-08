@@ -609,6 +609,9 @@
         }
 
         for ( i=0; i<otherTextItems.length; i++ ) {
+            otherTextItems[i].onclick = function(e) {
+				e.stopPropagation();
+			};
             addEvent(otherTextItems[i], 'keyup', function(e) {
                 document.getElementById(otherQIDarray[ parseInt(e.target.getAttribute("data-id"))-1 ]).value = e.target.value;
                 if (window.askia
@@ -619,13 +622,7 @@
                 }
             }, false);
         }
-
-		if(container.querySelector('.otherText')){
-			container.querySelector('.otherText').onclick = function(e) {
-				e.stopPropagation();
-			};
-		}
-
+        
         function scrollTo(element, to, duration) {
             if (duration <= 0) return;
             var difference = to - element.scrollTop;
