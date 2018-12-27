@@ -613,7 +613,8 @@
 				e.stopPropagation();
 			};
             addEvent(otherTextItems[i], 'keyup', function(e) {
-                document.getElementById(otherQIDarray[ parseInt(e.srcElement.getAttribute("data-id"))-1 ]).value = e.srcElement.value;
+                var elem = e.srcElement || e.target;
+                document.getElementById(otherQIDarray[ parseInt(elem.getAttribute("data-id"))-1 ]).value = elem.value;
                 if (window.askia
                     && window.arrLiveRoutingShortcut
                     && window.arrLiveRoutingShortcut.length > 0
