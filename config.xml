@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<control  xmlns="http://www.askia.com/2.1.0/ADCSchema"
+<control  xmlns="http://www.askia.com/2.2.0/ADCSchema"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://www.askia.com/2.1.0/ADCSchema https://raw.githubusercontent.com/AskiaADX/ADXSchema/2.1.0/ADCSchema.xsd"
-          version="2.1.0"
-          askiaCompat="5.4.2">
+          xsi:schemaLocation="http://www.askia.com/2.2.0/ADCSchema https://raw.githubusercontent.com/AskiaADX/ADXSchema/2.2.0/ADCSchema.xsd"
+          version="2.2.0"
+          askiaCompat="5.3.3">
   <info>
     <name>StatementsOther</name>
     <guid>1175ae20-499c-4a62-8dc3-d3f495c29530</guid>
@@ -52,7 +52,10 @@
 		v2.0.20 - Fixed textbox data when single closed question and multiple others
 		v2.0.21 - Fixed errors when single/multiple closed question without open ended.
 		v2.0.22 - Fixed propagation on click on several other text.
-		v2.0.23 - Fixed IE10 and lower]]></description>
+		v2.0.23 - Fixed IE10 and lower
+		v2.0.24 - Added non clickable responses (headers)
+		v3.0.0 -Managed semi-open question with property types for D6 compatibility
+]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
     <site>http://www.askia.com</site>
@@ -61,13 +64,13 @@
       <category>General</category>
     </categories>
     <constraints>
-      <constraint on="questions" single="true" multiple="true" open="true" chapter="false" date="false" numeric="false" requireParentLoop="false" requireLoopDepth="0" />
+      <constraint on="questions" single="true" multiple="true" open="true" chapter="false" date="false" numeric="false" requireParentLoop="false" requireLoopDepth="false" />
       <constraint on="controls" responseblock="true" textbox="true" label="true" checkbox="false" listbox="false" radiobutton="false" />
       <constraint on="responses" max="*" min="*" />
     </constraints>
   </info>
   <outputs defaultOutput="fallback">
-    <output id="fallback" manageLoopDepth="0">
+    <output id="fallback">
       <description><![CDATA[
         Fallback when the browser doesnacute;t support Javascript
       ]]></description>
@@ -78,7 +81,7 @@
       <content fileName="multiple.html" type="html" mode="dynamic" position="none" />
       <content fileName="default.html" type="html" mode="dynamic" position="placeholder" />
     </output>
-    <output id="standard" manageLoopDepth="0">
+    <output id="standard">
       <description><![CDATA[
         Output when the browser support Javascript
       ]]></description>
@@ -204,16 +207,12 @@
       </property>
     </category>
     <category id="other" name="Other Response">
-      <property xsi:type="standardProperty" id="otherQID" name="Other Question ID" type="string" mode="static">
-        <description><![CDATA[
-          The ids of the other responses seperated by commas
-        ]]></description>
+      <property xsi:type="standardProperty" id="otherQID" name="Other Question ID (deprecated)" type="string" mode="static" require="false" visible="true">
+        <description><![CDATA[The ids of the other responses seperated by commas]]></description>
         <value></value>
       </property>
-      <property xsi:type="standardProperty" id="otherRID" name="Other Response ID" type="string" mode="static">
-        <description><![CDATA[
-          The ids of the other responses separated by commas
-        ]]></description>
+      <property xsi:type="standardProperty" id="otherRID" name="Other Response ID (deprecated)" type="string" mode="static" require="false" visible="true">
+        <description><![CDATA[The ids of the other responses separated by commas]]></description>
         <value><![CDATA[5]]></value>
       </property>
       <property xsi:type="standardProperty" id="otherColourPrimary" name="Other Background Colour" type="color" mode="dynamic" require="true" visible="false">
@@ -254,6 +253,46 @@
           <option value="0px 2px 4px rgba(0,0,0,.2)" text="On" />
           <option value="none" text="Off" />
         </options>
+      </property>
+      <property xsi:type="standardProperty" id="otherResponse1" name="1st semi-open entry code" type="string" require="false" visible="true">
+        <description><![CDATA[Indicate the entry code or order fo the first semi-open response]]></description>
+        <value></value>
+      </property>
+      <property xsi:type="standardProperty" id="otherQuestion1" name="1st semi-open question" type="question" require="false" visible="true" chapter="false" single="false" multiple="false" numeric="false" open="true" date="false">
+        <description><![CDATA[]]></description>
+        <value></value>
+      </property>
+      <property xsi:type="standardProperty" id="otherResponse2" name="2nd semi-open entry code" type="string" require="false" visible="true">
+        <description><![CDATA[Indicate the entry code or order fo the first semi-open response]]></description>
+        <value></value>
+      </property>
+      <property xsi:type="standardProperty" id="otherQuestion2" name="2nd semi-open question" type="question" require="false" visible="true" chapter="false" single="false" multiple="false" numeric="false" open="true" date="false">
+        <description><![CDATA[]]></description>
+        <value></value>
+      </property>
+      <property xsi:type="standardProperty" id="otherResponse3" name="3rd semi-open entry code" type="string" require="false" visible="true">
+        <description><![CDATA[Indicate the entry code or order fo the first semi-open response]]></description>
+        <value></value>
+      </property>
+      <property xsi:type="standardProperty" id="otherQuestion3" name="3rd semi-open question" type="question" require="false" visible="true" chapter="false" single="false" multiple="false" numeric="false" open="true" date="false">
+        <description><![CDATA[]]></description>
+        <value></value>
+      </property>
+      <property xsi:type="standardProperty" id="otherResponse4" name="4th semi-open entry code" type="string" require="false" visible="true">
+        <description><![CDATA[Indicate the entry code or order fo the first semi-open response]]></description>
+        <value></value>
+      </property>
+      <property xsi:type="standardProperty" id="otherQuestion4" name="4th semi-open question" type="question" require="false" visible="true" chapter="false" single="false" multiple="false" numeric="false" open="true" date="false">
+        <description><![CDATA[]]></description>
+        <value></value>
+      </property>
+      <property xsi:type="standardProperty" id="otherResponse5" name="5th semi-open entry code" type="string" require="false" visible="true">
+        <description><![CDATA[Indicate the entry code or order fo the first semi-open response]]></description>
+        <value></value>
+      </property>
+      <property xsi:type="standardProperty" id="otherQuestion5" name="5th semi-open question" type="question" require="false" visible="true" chapter="false" single="false" multiple="false" numeric="false" open="true" date="false">
+        <description><![CDATA[]]></description>
+        <value></value>
       </property>
     </category>
     <category id="responses" name="Responses">
@@ -533,6 +572,24 @@
           <option value="height" text="Force height" />
           <option value="both" text="Force both" />
         </options>
+      </property>
+    </category>
+    <category id="headers" name="Headers (non clickable responses)">
+      <property xsi:type="standardProperty" id="prefixHeader" name="Prefix to identify headers" type="string" require="false" visible="true">
+        <description><![CDATA[]]></description>
+        <value></value>
+      </property>
+      <property xsi:type="standardProperty" id="showHeaders" name="Show Headers" type="boolean" require="false" visible="true">
+        <description><![CDATA[]]></description>
+        <value><![CDATA[true]]></value>
+      </property>
+      <property xsi:type="standardProperty" id="headerColourPrimary" name="Header Background Colour" type="color" mode="dynamic" visible="true">
+        <description><![CDATA[Background colour of the header item]]></description>
+        <value><![CDATA[{%= Theme.NeutralDarkColor %}]]></value>
+      </property>
+      <property xsi:type="standardProperty" id="headerFontColour" name="Header Font Colour" type="color" mode="dynamic" visible="true">
+        <description><![CDATA[Header colour]]></description>
+        <value><![CDATA[{%= Theme.BlackColor %}]]></value>
       </property>
     </category>
   </properties>

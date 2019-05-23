@@ -11,8 +11,28 @@ Dim k
 Dim flowDirection
 Dim ar = CurrentQuestion.AvailableResponses
 Dim otherIDs = CurrentADC.PropValue("otherRID")
-Dim	otherIDarray = otherIDs.Split(",")
+Dim	otherIDarray = otherIDs.SplitToNumbers(",")
 Dim otherID
+
+' If the semi-opens are not defined in the old way
+Dim arrOpenValues As StringArray
+Dim arrOpenNames As StringArray
+if otherIDarray.Count = 0 Then
+    Dim nSemiopen
+    For nSemiopen =1 to 5
+        Dim respSemiOpen =  CurrentADC.PropValue("otherResponse" + nSemiOpen)
+        Dim qesSemiOpen =  CurrentADC.PropQuestion("otherQuestion" + nSemiOpen)
+        If respSemiOpen <> "" And  qesSemiOpen.ID <> DK And  qesSemiOpen.type="open" Then
+            For i = 1 to ar.Count
+                If ar[i].EntryCodeStr = respSemiOpen.ToString() Then
+                    arrOpenValues.Push(qesSemiOpen.InputValue())
+                    arrOpenNames.Push(qesSemiOpen.InputName())
+                    otherIDarray.Push(ar[i].Index)
+                Endif
+            Next i
+        EndIf
+    Next nSemiopen
+Endif
 
 %}
 <input type="hidden" id="{%= inputName %}" name="{%= inputName %}" value="{%= inputValue %}"  />
@@ -26,22 +46,22 @@ IF numberOfColumns > 0 Then
     
    	columnCounter = numberOfColumns
 
-    For i = 1 To CurrentQuestion.AvailableResponses.Count 
+    For i = 1 To ar.Count 
         If (flow = "vertical") Then
             flowDirection = (((1 + (Int((i - 1) / nbColumns))) + ((Int(ar.Count / nbColumns)) * ((i - 1) mod nbColumns))) * (1 - (Int(i / ((ar.Count + 1) - (ar.Count mod nbColumns)))))) + ((Int(i / ((ar.Count + 1) - (ar.Count mod nbColumns)))) * i)
         Else
             flowDirection = i
         EndIf
-        inputValue  = CurrentQuestion.AvailableResponses[flowDirection].InputValue()
-        caption     = CurrentQuestion.AvailableResponses[flowDirection].Caption
-        image		= CurrentQuestion.AvailableResponses.ResourceURL[flowDirection]
-        index		= CurrentQuestion.AvailableResponses[flowDirection].index
+        inputValue  = ar[flowDirection].InputValue()
+        caption     = ar[flowDirection].Caption
+        image		= ar.ResourceURL[flowDirection]
+        index		= ar[flowDirection].index
         
         if ( (columnCounter mod numberOfColumns) = 0 ) Then %}
         	<div class="column">
         {% EndIf %}
           
-        <div class="responseItem" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">
+        <div class="response responseItem" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">
             {% IF image <> "" Then %}
                 <img src="{%= image %}" onmousedown='return false;' alt="{%:= caption %}"/>
             {% EndIF %}
@@ -59,7 +79,7 @@ IF numberOfColumns > 0 Then
          {%
         columnCounter = columnCounter - 1
         
-        IF (columnCounter < 1) or (i = CurrentQuestion.AvailableResponses.Count)  Then
+        IF (columnCounter < 1) or (i = ar.Count)  Then
         
             %}
             <div style="clear:both"></div>
@@ -72,13 +92,13 @@ IF numberOfColumns > 0 Then
     
 Else
 	
-    For j = 1 To CurrentQuestion.AvailableResponses.Count 
-        inputValue  = CurrentQuestion.AvailableResponses[j].InputValue()
-        caption     = CurrentQuestion.AvailableResponses[j].Caption
-        image		= CurrentQuestion.AvailableResponses.ResourceURL[j]
-        index		= CurrentQuestion.AvailableResponses[j].index
+    For j = 1 To ar.Count 
+        inputValue  = ar[j].InputValue()
+        caption     = ar[j].Caption
+        image		= ar.ResourceURL[j]
+        index		= ar[j].index
     %}
-    <div class="responseItem" data-value="{%= inputValue %}" data-id="{%= j %}" data-index="{%= index %}">
+    <div class="response responseItem" data-value="{%= inputValue %}" data-id="{%= j %}" data-index="{%= index %}">
         {% IF image <> "" Then %}
             <img src="{%= image %}" onmousedown='return false;' alt="{%:= caption %}"/>
         {% EndIF %}
@@ -87,7 +107,7 @@ Else
         {% For k = 1 To otherIDarray.Count 
         	otherID = otherIDarray[k].ToNumber()
             IF index = otherID Then %}
-                <div style="overflow:hidden"><textarea aria-label="Other" class="otherText" data-id="{%= k %}"></textarea></div>
+                <div style="overflow:hidden"><textarea aria-label="Other" class="otherText"  id="{%= arrOpenNames[k] %}" name="{%= arrOpenNames[k] %}" data-id="{%= k %}">{%= arrOpenValues[k] %}</textarea></div>
                 <div style="clear:both"></div>
             {% EndIF %}
         {% Next %}

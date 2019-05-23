@@ -154,6 +154,7 @@
         polyfillGetElementsByClassName();
 		var container = document.getElementById("adc_" + this.instanceId),
             columns =  container.getElementsByClassName('column'),
+            responses =  [].slice.call(container.getElementsByClassName('response')),
             responseItems =  [].slice.call(container.getElementsByClassName('responseItem')),
             otherTextItems =  [].slice.call(container.getElementsByClassName('otherText')),
             images = [].slice.call(container.getElementsByTagName("img")),
@@ -368,17 +369,17 @@
 
             for ( i=0; i<currentValues.length; i++ ) {
                 currentValue = currentValues[i];
-                for ( var j=0; j<responseItems.length; j++) {
-                    if ( !hasClass( responseItems[j], 'exclusive' ) ) addClass( responseItems[j], 'cb' );
-                    responseItems[j].setAttribute('data-id', j);
-                    var value = responseItems[j].getAttribute('data-value'),
-                        isSelected = responseItems[j].getAttribute('data-value') == currentValue ? true : false;
+                for ( var j=0; j<responses.length; j++) {
+                    if ( hasClass( responses[j], 'responseItem' ) && !hasClass( responses[j], 'exclusive' ) ) addClass( responses[j], 'cb' );
+                    responses[j].setAttribute('data-id', j);
+                    var value = responses[j].getAttribute('data-value'),
+                        isSelected = responses[j].getAttribute('data-value') == currentValue ? true : false;
                     if (isSelected) {
-                        addClass(responseItems[j], 'selected');
-                         if ( otherRIDarray.indexOf(responseItems[j].getAttribute('data-index')) >= 0 ) {
-                            var otherID = otherRIDarray.indexOf(responseItems[j].getAttribute('data-index'));
-                            responseItems[j].querySelector('.otherText').style.display = '';
-                            responseItems[j].querySelector('.otherText').focus();
+                        addClass(responses[j], 'selected');
+                         if ( otherRIDarray.indexOf(responses[j].getAttribute('data-index')) >= 0 ) {
+                            var otherID = otherRIDarray.indexOf(responses[j].getAttribute('data-index'));
+                            responses[j].querySelector('.otherText').style.display = '';
+                            responses[j].querySelector('.otherText').focus();
                         }
                     }
                 }
@@ -386,17 +387,17 @@
         }
 
         // Attach all events
-        for ( i=0; i<responseItems.length; i++) {
-            responseItems[i].onclick = function(e){
+        for ( i=0; i<responses.length; i++) {
+            responses[i].onclick = function(e){
                 (!isMultiple) ? selectStatementSingle(this) : selectStatementMultiple(this);
             };
         }
 
         function restoreRangeColour(index) {
 
-            if ( options.useRange && !hasClass(responseItems[index], 'ns') ) {
+            if ( options.useRange && !hasClass(responses[index], 'ns') ) {
 
-                var maxNumber = responseItems.length - options.numberNS;
+                var maxNumber = responses.length - options.numberNS;
                 var rangeArray = options.range.split(';');
                 var rainbow1 = new Rainbow();
                     rainbow1.setSpectrum(processRgb(rangeArray[0]), processRgb(rangeArray[2]));

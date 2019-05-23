@@ -1,5 +1,31 @@
 /* standard.js */
  DomReady.ready(function() {
+{%
+Dim i =1
+Dim strOtherRID = CurrentADC.PropValue("otherRID")
+Dim strOtherQID = CurrentADC.PropValue("otherQID")
+if strOtherRID = "" Then
+    Dim ar = CurrentQuestion.AvailableResponses
+    strOtherQID = ""
+    Dim nSemiopen
+    For nSemiopen =1 to 5
+        Dim respSemiOpen =  CurrentADC.PropValue("otherResponse" + nSemiOpen)
+        Dim qesSemiOpen =  CurrentADC.PropQuestion("otherQuestion" + nSemiOpen)
+        If respSemiOpen <> "" And  qesSemiOpen.ID <> DK And  qesSemiOpen.type="open" Then
+            For i = 1 to ar.Count
+                If ar[i].EntryCodeStr = respSemiOpen.ToString() Then
+                    If strOtherRID <> "" Then
+                    	strOtherRID = strOtherRID + ","
+                        strOtherQID = strOtherQID + ","
+                    Endif
+                    strOtherRID = strOtherRID + ar[i].Index
+                    strOtherQID = strOtherQID + qesSemiOpen.InputName()
+                Endif
+            Next i
+        EndIf
+    Next nSemiopen
+Endif
+%}
        
     var statementsOther = new StatementsOther({
         instanceId : '{%= CurrentADC.InstanceId%}',
@@ -25,8 +51,8 @@
 		showResponseHoverFontColour: {%= (CurrentADC.PropValue("showResponseHoverFontColour") = "1") %},
 		showResponseHoverBorder: {%= (CurrentADC.PropValue("showResponseHoverBorder") = "1") %},
 		controlAlign : '{%= CurrentADC.PropValue("controlAlign") %}',
-        otherRID : '{%= CurrentADC.PropValue("otherRID") %}',
-		otherQID : '{%= CurrentADC.PropValue("otherQID") %}',
+        otherRID : '{%= strOtherRID %}',
+		otherQID : '{%= strOtherQID %}',
 		rangeGradientDirection : '{%= CurrentADC.PropValue("rangeGradientDirection") %}',
         mergeColumnWidth : '{%= CurrentADC.PropValue("mergeColumnWidth") %}',
         responseHeight : '{%= CurrentADC.PropValue("responseHeight") %}',
