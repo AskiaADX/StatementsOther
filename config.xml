@@ -213,7 +213,7 @@
       </property>
       <property xsi:type="standardProperty" id="otherRID" name="Other Response ID (deprecated)" type="string" mode="static" require="false" visible="true">
         <description><![CDATA[The ids of the other responses separated by commas]]></description>
-        <value><![CDATA[5]]></value>
+        <value></value>
       </property>
       <property xsi:type="standardProperty" id="otherColourPrimary" name="Other Background Colour" type="color" mode="dynamic" require="true" visible="false">
         <description><![CDATA[Background colour of the other response]]></description>
