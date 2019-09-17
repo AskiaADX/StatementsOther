@@ -73,7 +73,7 @@ IF numberOfColumns > 0 Then
         	<div class="column">
         {% EndIf %}
         
-        <div class="responseItem{%= attrExclusive %}" data-value="{%= inputValue %}" data-id="{%= flowDirection-1 %}" data-index="{%= index %}">
+        <div class="response responseItem{%= attrExclusive %}" data-value="{%= inputValue %}" data-id="{%= flowDirection-1 %}" data-index="{%= index %}">
             {% IF image <> "" Then %}
                 <img src="{%= image %}" onmousedown='return false;'  alt="{%:= caption %}"/>
             {% EndIF %}
