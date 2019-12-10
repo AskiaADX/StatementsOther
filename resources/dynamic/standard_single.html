@@ -4,12 +4,13 @@ Dim inputValue = CurrentQuestion.InputValue()
 Dim caption
 Dim image
 Dim index
+Dim isHeader
 Dim columnCounter
 Dim i
 Dim j
 Dim k
 Dim flowDirection
-Dim ar = CurrentQuestion.AvailableResponses
+Dim ar = CurrentQuestion.Responses
 Dim otherIDs = CurrentADC.PropValue("otherRID")
 Dim	otherIDarray = otherIDs.SplitToNumbers(",")
 Dim otherID
@@ -40,13 +41,15 @@ Endif
 
 Dim numberOfColumns = CurrentADC.PropValue("columns").ToNumber()
 Dim flow = CurrentADC.PropValue("columnsFlow")
+Dim showHeader    =CurrentADC.PropValue("showHeaders") ="1"
+
 Dim nbColumns = numberOfColumns
 
 IF numberOfColumns > 0 Then
-    
+
    	columnCounter = numberOfColumns
 
-    For i = 1 To ar.Count 
+    For i = 1 To ar.Count
         If (flow = "vertical") Then
             flowDirection = (((1 + (Int((i - 1) / nbColumns))) + ((Int(ar.Count / nbColumns)) * ((i - 1) mod nbColumns))) * (1 - (Int(i / ((ar.Count + 1) - (ar.Count mod nbColumns)))))) + ((Int(i / ((ar.Count + 1) - (ar.Count mod nbColumns)))) * i)
         Else
@@ -56,18 +59,25 @@ IF numberOfColumns > 0 Then
         caption     = ar[flowDirection].Caption
         image		= ar.ResourceURL[flowDirection]
         index		= ar[flowDirection].index
+        isHeader  = ar[flowDirection].isHeader
         
         if ( (columnCounter mod numberOfColumns) = 0 ) Then %}
         	<div class="column">
         {% EndIf %}
-          
-        <div class="response responseItem" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">
+		
+     	{% If isHeader = False or showHeader = True Then %}
+    		{% If isHeader = true Then%}
+				<div class="response responseHeader"  onmousedown="return false;" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">                                
+            {% Else %}
+        		<div class="response responseItem" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">            
+            {% EndIF %}
+                
             {% IF image <> "" Then %}
                 <img src="{%= image %}" onmousedown='return false;' alt="{%:= caption %}"/>
             {% EndIF %}
             <span class="response_text" onmousedown='return false;'>{%:= caption %}</span>
             <div style="clear:both"></div>
-            {% For k = 1 To otherIDarray.Count 
+            {% For k = 1 To otherIDarray.Count
             	otherID = otherIDarray[k].ToNumber()
             	IF index = otherID Then %}
                     <div style="overflow:hidden"><textarea class="otherText" data-id="{%= k %}"></textarea></div>
@@ -75,43 +85,53 @@ IF numberOfColumns > 0 Then
                 {% EndIF %}
             {% Next %}
         </div>
-        
+         {% EndIF %}
+
          {%
         columnCounter = columnCounter - 1
-        
+
         IF (columnCounter < 1) or (i = ar.Count)  Then
-        
+
             %}
             <div style="clear:both"></div>
             </div>
-            
+
         {% columnCounter = numberOfColumns
 		EndIF
-    
+
     Next
-    
+
 Else
-	
-    For j = 1 To ar.Count 
+
+    For j = 1 To ar.Count
         inputValue  = ar[j].InputValue()
         caption     = ar[j].Caption
         image		= ar.ResourceURL[j]
         index		= ar[j].index
+        isHeader  = ar[j].isHeader
     %}
-    <div class="response responseItem" data-value="{%= inputValue %}" data-id="{%= j %}" data-index="{%= index %}">
-        {% IF image <> "" Then %}
-            <img src="{%= image %}" onmousedown='return false;' alt="{%:= caption %}"/>
-        {% EndIF %}
-        <span class="response_text"  onmousedown='return false;'>{%:= caption %}</span>
-        <div style="clear:both"></div>
-        {% For k = 1 To otherIDarray.Count 
-        	otherID = otherIDarray[k].ToNumber()
-            IF index = otherID Then %}
-                <div style="overflow:hidden"><textarea aria-label="Other" class="otherText"  id="{%= arrOpenNames[k] %}" name="{%= arrOpenNames[k] %}" data-id="{%= k %}">{%= arrOpenValues[k] %}</textarea></div>
-                <div style="clear:both"></div>
+                
+     	{% If isHeader = False or showHeader = True Then %}
+    		{% If isHeader = true Then%}
+        		<div class="response responseHeader"  onmousedown="return false;" data-value="{%= inputValue %}" data-id="{%= j %}" data-index="{%= index %}">                                
+            {% Else %}
+    	    	<div class="response responseItem" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">            
             {% EndIF %}
-        {% Next %}
-    </div>
+                    
+                    {% IF image <> "" Then %}
+                        <img src="{%= image %}" onmousedown='return false;' alt="{%:= caption %}"/>
+                    {% EndIF %}
+                    <span class="response_text"  onmousedown='return false;'>{%:= caption %}</span>
+                    <div style="clear:both"></div>
+                    {% For k = 1 To otherIDarray.Count
+                        otherID = otherIDarray[k].ToNumber()
+                        IF index = otherID Then %}
+                            <div style="overflow:hidden"><textarea aria-label="Other" class="otherText"  id="{%= arrOpenNames[k] %}" name="{%= arrOpenNames[k] %}" data-id="{%= k %}">{%= arrOpenValues[k] %}</textarea></div>
+                            <div style="clear:both"></div>
+                        {% EndIF %}
+                    {% Next %}
+ 		    </div>
+    {% EndIF %}                    
     {% Next %}
     <div style="clear:both"></div>
 {% EndIF %}

@@ -1,7 +1,7 @@
 /* standard_single.js */
 {% 
 Dim i 
-Dim ar = CurrentQuestion.AvailableResponses
+Dim ar = CurrentQuestion.Responses
 Dim inputName
 
 For i = 1 To ar.Count 

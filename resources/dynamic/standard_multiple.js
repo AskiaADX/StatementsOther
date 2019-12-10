@@ -1,7 +1,7 @@
 /* standard_multiple.js */
 {% 
 Dim i 
-Dim ar = CurrentQuestion.AvailableResponses
+Dim ar = CurrentQuestion.Responses
 Dim inputName = CurrentQuestion.InputName()
 Dim isExclusive
 

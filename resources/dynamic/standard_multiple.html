@@ -10,7 +10,7 @@ Dim total
 Dim maxPerColumn
 Dim remainder
 Dim columnCounter
-Dim ar = CurrentQuestion.AvailableResponses
+Dim ar = CurrentQuestion.Responses
 Dim otherIDs = CurrentADC.PropValue("otherRID")
 Dim	otherIDarray = otherIDs.SplitToNumbers(",")
 Dim otherID
@@ -19,6 +19,7 @@ Dim i
 Dim j
 Dim k
 Dim flowDirection
+Dim isHeader
 
 ' If the semi-opens are not defined in the old way
 Dim arrOpenValues As StringArray
@@ -50,8 +51,7 @@ Dim flow = CurrentADC.PropValue("columnsFlow")
 Dim nbColumns = numberOfColumns
 
 Dim showHeader    =CurrentADC.PropValue("showHeaders") ="1"
-Dim prefixHeader    =CurrentADC.PropValue("prefixHeader") 
-Dim isHeader
+' Dim prefixHeader    =CurrentADC.PropValue("prefixHeader") 
 
 IF numberOfColumns > 0 Then
 
@@ -110,14 +110,15 @@ Else
         image		= ar.ResourceURL[j]
         index		= ar[j].index
         attrExclusive = On(ar[j].IsExclusive, " exclusive", "")
+		isHeader = ar[j].isHeader
 
-        isHeader = False
-        If prefixHeader <> "" Then
-        	if caption.Left(prefixHeader.Length) = prefixHeader then
-            	isHeader = True
-    			caption = caption.SubString(prefixHeader.Length + 1)
-        	Endif
-        Endif
+'        isHeader = False
+'        If prefixHeader <> "" Then
+'        	if caption.Left(prefixHeader.Length) = prefixHeader then
+'            	isHeader = True
+'    			caption = caption.SubString(prefixHeader.Length + 1)
+'        	Endif
+'        Endif
 		If isHeader = False or showHeader = True Then
 			If isHeader Then
     %}

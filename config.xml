@@ -7,7 +7,7 @@
   <info>
     <name>StatementsOther</name>
     <guid>1175ae20-499c-4a62-8dc3-d3f495c29530</guid>
-    <version>3.0.2</version>
+    <version>4.0.0</version>
     <date>2013-07-26</date>
     <description><![CDATA[Describe your ADC here
         v1.0.5 - removed CSS3 Pie
@@ -56,6 +56,7 @@
 		v2.0.24 - Added non clickable responses (headers)
 		v3.0.0 -Managed semi-open question with property types for D6 compatibility
         v3.0.2 - fixed response class on multiple on several columns
+		v4.0.0 - Non clickable responses without prefixHeader
 ]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
@@ -576,10 +577,6 @@
       </property>
     </category>
     <category id="headers" name="Headers (non clickable responses)">
-      <property xsi:type="standardProperty" id="prefixHeader" name="Prefix to identify headers" type="string" require="false" visible="true">
-        <description><![CDATA[]]></description>
-        <value></value>
-      </property>
       <property xsi:type="standardProperty" id="showHeaders" name="Show Headers" type="string" require="false" visible="true">
         <description><![CDATA[]]></description>
         <value><![CDATA[1]]></value>
