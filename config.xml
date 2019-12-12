@@ -7,7 +7,7 @@
   <info>
     <name>StatementsOther</name>
     <guid>1175ae20-499c-4a62-8dc3-d3f495c29530</guid>
-    <version>4.0.0</version>
+    <version>4.0.1</version>
     <date>2013-07-26</date>
     <description><![CDATA[Describe your ADC here
         v1.0.5 - removed CSS3 Pie
@@ -57,6 +57,7 @@
 		v3.0.0 -Managed semi-open question with property types for D6 compatibility
         v3.0.2 - fixed response class on multiple on several columns
 		v4.0.0 - Non clickable responses without prefixHeader
+    v4.0.1 - Semi-open questions
 ]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
@@ -209,14 +210,6 @@
       </property>
     </category>
     <category id="other" name="Other Response">
-      <property xsi:type="standardProperty" id="otherQID" name="Other Question ID (deprecated)" type="string" mode="static" require="false" visible="true">
-        <description><![CDATA[The ids of the other responses seperated by commas]]></description>
-        <value></value>
-      </property>
-      <property xsi:type="standardProperty" id="otherRID" name="Other Response ID (deprecated)" type="string" mode="static" require="false" visible="true">
-        <description><![CDATA[The ids of the other responses separated by commas]]></description>
-        <value></value>
-      </property>
       <property xsi:type="standardProperty" id="otherColourPrimary" name="Other Background Colour" type="color" mode="dynamic" require="true" visible="false">
         <description><![CDATA[Background colour of the other response]]></description>
         <value><![CDATA[{%= Theme.WhiteColor %}]]></value>
@@ -255,46 +248,6 @@
           <option value="0px 2px 4px rgba(0,0,0,.2)" text="On" />
           <option value="none" text="Off" />
         </options>
-      </property>
-      <property xsi:type="standardProperty" id="otherResponse1" name="1st semi-open entry code" type="string" require="false" visible="true">
-        <description><![CDATA[Indicate the entry code or order fo the first semi-open response]]></description>
-        <value></value>
-      </property>
-      <property xsi:type="standardProperty" id="otherQuestion1" name="1st semi-open question" type="question" require="false" visible="true" chapter="false" single="false" multiple="false" numeric="false" open="true" date="false">
-        <description><![CDATA[]]></description>
-        <value></value>
-      </property>
-      <property xsi:type="standardProperty" id="otherResponse2" name="2nd semi-open entry code" type="string" require="false" visible="true">
-        <description><![CDATA[Indicate the entry code or order fo the first semi-open response]]></description>
-        <value></value>
-      </property>
-      <property xsi:type="standardProperty" id="otherQuestion2" name="2nd semi-open question" type="question" require="false" visible="true" chapter="false" single="false" multiple="false" numeric="false" open="true" date="false">
-        <description><![CDATA[]]></description>
-        <value></value>
-      </property>
-      <property xsi:type="standardProperty" id="otherResponse3" name="3rd semi-open entry code" type="string" require="false" visible="true">
-        <description><![CDATA[Indicate the entry code or order fo the first semi-open response]]></description>
-        <value></value>
-      </property>
-      <property xsi:type="standardProperty" id="otherQuestion3" name="3rd semi-open question" type="question" require="false" visible="true" chapter="false" single="false" multiple="false" numeric="false" open="true" date="false">
-        <description><![CDATA[]]></description>
-        <value></value>
-      </property>
-      <property xsi:type="standardProperty" id="otherResponse4" name="4th semi-open entry code" type="string" require="false" visible="true">
-        <description><![CDATA[Indicate the entry code or order fo the first semi-open response]]></description>
-        <value></value>
-      </property>
-      <property xsi:type="standardProperty" id="otherQuestion4" name="4th semi-open question" type="question" require="false" visible="true" chapter="false" single="false" multiple="false" numeric="false" open="true" date="false">
-        <description><![CDATA[]]></description>
-        <value></value>
-      </property>
-      <property xsi:type="standardProperty" id="otherResponse5" name="5th semi-open entry code" type="string" require="false" visible="true">
-        <description><![CDATA[Indicate the entry code or order fo the first semi-open response]]></description>
-        <value></value>
-      </property>
-      <property xsi:type="standardProperty" id="otherQuestion5" name="5th semi-open question" type="question" require="false" visible="true" chapter="false" single="false" multiple="false" numeric="false" open="true" date="false">
-        <description><![CDATA[]]></description>
-        <value></value>
       </property>
     </category>
     <category id="responses" name="Responses">

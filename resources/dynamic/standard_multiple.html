@@ -11,9 +11,7 @@ Dim maxPerColumn
 Dim remainder
 Dim columnCounter
 Dim ar = CurrentQuestion.Responses
-Dim otherIDs = CurrentADC.PropValue("otherRID")
-Dim	otherIDarray = otherIDs.SplitToNumbers(",")
-Dim otherID
+
 Dim attrSelected
 Dim i
 Dim j
@@ -21,27 +19,18 @@ Dim k
 Dim flowDirection
 Dim isHeader
 
-' If the semi-opens are not defined in the old way
+Dim	otherIDarray As NumberArray
 Dim arrOpenValues As StringArray
 Dim arrOpenNames As StringArray
-if otherIDarray.Count = 0 Then
-    Dim nSemiopen
-    For nSemiopen =1 to 5
-        Dim respSemiOpen =  CurrentADC.PropValue("otherResponse" + nSemiOpen)
-        Dim qesSemiOpen =  CurrentADC.PropQuestion("otherQuestion" + nSemiOpen)
-        If RespSemiOpen <> "" And  qesSemiOpen.ID <> DK And  qesSemiOpen.type="open" Then
-            
-            For i = 1 to ar.Count
-                If ar[i].EntryCodeStr = respSemiOpen.ToString() Then
-                    arrOpenValues.Push(qesSemiOpen.InputValue())
-                    arrOpenNames.Push(qesSemiOpen.InputName())
-                    otherIDarray.Push(ar[i].Index)
-                Endif
-            Next i
-        EndIf
-    Next nSemiopen
-Endif
+Dim otherID
 
+For i = 1 to ar.Count
+    If ar[i].isOpen = True Then
+        arrOpenValues.Push(ar[i].OpenQuestion.InputValue())
+        arrOpenNames.Push(ar[i].OpenQuestion.InputName())
+        otherIDarray.Push(ar[i].Index)
+    Endif
+Next i
 
 %}
 <input type="hidden" name="{%= CurrentQuestion.InputName("list")%}" value="{%= CurrentQuestion.InputValue()%}" />
@@ -51,13 +40,13 @@ Dim flow = CurrentADC.PropValue("columnsFlow")
 Dim nbColumns = numberOfColumns
 
 Dim showHeader    =CurrentADC.PropValue("showHeaders") ="1"
-' Dim prefixHeader    =CurrentADC.PropValue("prefixHeader") 
+' Dim prefixHeader    =CurrentADC.PropValue("prefixHeader")
 
 IF numberOfColumns > 0 Then
 
 	columnCounter = numberOfColumns
-    
-    For i = 1 To ar.Count 
+
+    For i = 1 To ar.Count
         If (flow = "vertical") Then
             flowDirection = (((1 + (Int((i - 1) / nbColumns))) + ((Int(ar.Count / nbColumns)) * ((i - 1) mod nbColumns))) * (1 - (Int(i / ((ar.Count + 1) - (ar.Count mod nbColumns)))))) + ((Int(i / ((ar.Count + 1) - (ar.Count mod nbColumns)))) * i)
         Else
@@ -68,18 +57,18 @@ IF numberOfColumns > 0 Then
         image		= ar.ResourceURL[flowDirection]
         index		= ar[flowDirection].index
         attrExclusive = On(ar[flowDirection].IsExclusive, " exclusive", "")
-        
+
         if ( (columnCounter mod numberOfColumns) = 0 ) Then %}
         	<div class="column">
         {% EndIf %}
-        
+
         <div class="response responseItem{%= attrExclusive %}" data-value="{%= inputValue %}" data-id="{%= flowDirection-1 %}" data-index="{%= index %}">
             {% IF image <> "" Then %}
                 <img src="{%= image %}" onmousedown='return false;'  alt="{%:= caption %}"/>
             {% EndIF %}
             <span class="response_text" onmousedown='return false;'>{%:= caption %}</span>
             <div style="clear:both"></div>
-            {% For k = 1 To otherIDarray.Count 
+            {% For k = 1 To otherIDarray.Count
             	otherID = otherIDarray[k].ToNumber()
             	IF index = otherID Then %}
                     <div style="overflow:hidden"><textarea class="otherText" data-id="{%= k %}"></textarea></div>
@@ -87,24 +76,24 @@ IF numberOfColumns > 0 Then
                 {% EndIF %}
             {% Next %}
         </div>
-        
+
          {%
         columnCounter = columnCounter - 1
-        
+
         IF (columnCounter < 1) or (i = ar.Count)  Then
-        
+
             %}
             <div style="clear:both"></div>
             </div>
-            
+
         {% columnCounter = numberOfColumns
 		EndIF
-    
+
     Next
-    
+
 Else
-	
-    For j = 1 To ar.Count 
+
+    For j = 1 To ar.Count
         inputValue  = ar[j].InputValue()
         caption     = ar[j].Caption
         image		= ar.ResourceURL[j]
@@ -112,13 +101,6 @@ Else
         attrExclusive = On(ar[j].IsExclusive, " exclusive", "")
 		isHeader = ar[j].isHeader
 
-'        isHeader = False
-'        If prefixHeader <> "" Then
-'        	if caption.Left(prefixHeader.Length) = prefixHeader then
-'            	isHeader = True
-'    			caption = caption.SubString(prefixHeader.Length + 1)
-'        	Endif
-'        Endif
 		If isHeader = False or showHeader = True Then
 			If isHeader Then
     %}
@@ -135,15 +117,16 @@ Else
 	%}
         	<span class="response_text" onmousedown='return false;'>{%:= caption %}</span>
         	<div style="clear:both"></div>
-        	{% For k = 1 To otherIDarray.Count 
+        	{% For k = 1 To otherIDarray.Count
             	otherID = otherIDarray[k].ToNumber()
             	IF index = otherID Then %}
-                	<div style="overflow:hidden"><textarea aria-label="Other" class="otherText" id="{%= arrOpenNames[k] %}" name="{%= arrOpenNames[k] %}" data-id="{%= k %}">{%= arrOpenValues[k] %}</textarea></div>
+                  <div style="overflow:hidden"><textarea aria-label="Other" class="otherText"  id="{%= ar[j].OpenQuestion.InputName() %}" name="{%= ar[j].OpenQuestion.InputName() %}" data-id="{%= k %}">{%= ar[j].OpenQuestion.inputValue() %}</textarea></div>
+
                 	<div style="clear:both"></div>
 				{% EndIF %}
     		{% Next k %}
     		</div>
-    {% 
+    {%
 		EndIf
 	Next j %}
     <div style="clear:both"></div>
