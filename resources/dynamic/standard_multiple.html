@@ -57,12 +57,19 @@ IF numberOfColumns > 0 Then
         image		= ar.ResourceURL[flowDirection]
         index		= ar[flowDirection].index
         attrExclusive = On(ar[flowDirection].IsExclusive, " exclusive", "")
+        isHeader  = ar[flowDirection].isHeader
 
         if ( (columnCounter mod numberOfColumns) = 0 ) Then %}
         	<div class="column">
         {% EndIf %}
 
-        <div class="response responseItem{%= attrExclusive %}" data-value="{%= inputValue %}" data-id="{%= flowDirection-1 %}" data-index="{%= index %}">
+        {% If isHeader = False or showHeader = True Then %}
+      		{% If isHeader = true Then %}
+  				    <div class="response responseHeader"  onmousedown="return false;" data-value="{%= inputValue %}" data-id="{%= flowDirection-1 %}" data-index="{%= index %}">
+              {% Else %}
+              <div class="response responseItem{%= attrExclusive %}" data-value="{%= inputValue %}" data-id="{%= flowDirection-1 %}" data-index="{%= index %}">
+          {% EndIF %}
+
             {% IF image <> "" Then %}
                 <img src="{%= image %}" onmousedown='return false;'  alt="{%:= caption %}"/>
             {% EndIF %}
@@ -71,11 +78,12 @@ IF numberOfColumns > 0 Then
             {% For k = 1 To otherIDarray.Count
             	otherID = otherIDarray[k].ToNumber()
             	IF index = otherID Then %}
-                    <div style="overflow:hidden"><textarea class="otherText" data-id="{%= k %}"></textarea></div>
+                    <div style="overflow:hidden"><textarea aria-label="Other" class="otherText"  id="{%= ar[flowDirection].OpenQuestion.InputName() %}" name="{%= ar[flowDirection].OpenQuestion.InputName() %}" data-id="{%= k %}">{%= ar[flowDirection].OpenQuestion.inputValue() %}</textarea></div>
                     <div style="clear:both"></div>
                 {% EndIF %}
             {% Next %}
         </div>
+        {% EndIF %}
 
          {%
         columnCounter = columnCounter - 1
