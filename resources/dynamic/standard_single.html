@@ -57,7 +57,7 @@ IF numberOfColumns > 0 Then
 
      	{% If isHeader = False or showHeader = True Then %}
     		{% If isHeader = true Then %}
-				    <div class="response responseHeader"  onmousedown="return false;" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">
+				    <div class="responseHeader"  onmousedown="return false;" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">
             {% Else %}
         		<div class="response responseItem" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">
         {% EndIF %}
@@ -102,7 +102,7 @@ Else
 
      	{% If isHeader = False or showHeader = True Then %}
     		{% If isHeader = true Then%}
-        		<div class="response responseHeader"  onmousedown="return false;" data-value="{%= inputValue %}" data-id="{%= j %}" data-index="{%= index %}">
+        		<div class="responseHeader"  onmousedown="return false;" data-value="{%= inputValue %}" data-id="{%= j %}" data-index="{%= index %}">
             {% Else %}
     	    	<div class="response responseItem" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">
             {% EndIF %}

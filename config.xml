@@ -7,7 +7,7 @@
   <info>
     <name>StatementsOther</name>
     <guid>1175ae20-499c-4a62-8dc3-d3f495c29530</guid>
-    <version>4.0.2</version>
+    <version>4.0.3</version>
     <date>2013-07-26</date>
     <description><![CDATA[Describe your ADC here
         v1.0.5 - removed CSS3 Pie
@@ -59,6 +59,7 @@
 		v4.0.0 - Non clickable responses without prefixHeader
     v4.0.1 - Semi-open questions
     v4.0.2 - fix issue when columns > 0
+    v4.0.3 - active headers - issue fux
 ]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
