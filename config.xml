@@ -7,7 +7,7 @@
   <info>
     <name>StatementsOther</name>
     <guid>1175ae20-499c-4a62-8dc3-d3f495c29530</guid>
-    <version>4.0.3</version>
+    <version>4.0.4</version>
     <date>2013-07-26</date>
     <description><![CDATA[Describe your ADC here
         v1.0.5 - removed CSS3 Pie
@@ -60,6 +60,7 @@
     v4.0.1 - Semi-open questions
     v4.0.2 - fix issue when columns > 0
     v4.0.3 - active headers - issue fux
+    v4.0.4 - AvailableResponses & manageHeader = true
 ]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
@@ -69,7 +70,7 @@
       <category>General</category>
     </categories>
     <constraints>
-      <constraint on="questions" single="true" multiple="true" open="true" chapter="false" date="false" numeric="false" requireParentLoop="false" requireLoopDepth="0" />
+      <constraint on="questions" single="true" multiple="true" open="true" chapter="false" date="false" numeric="false" requireParentLoop="false" requireLoopDepth="0" manageHeader="true"/>
       <constraint on="controls" responseblock="true" textbox="true" label="true" checkbox="false" listbox="false" radiobutton="false" />
       <constraint on="responses" max="*" min="*" />
     </constraints>

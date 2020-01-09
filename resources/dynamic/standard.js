@@ -6,7 +6,7 @@ Dim i
 Dim strOtherRID = ""
 Dim strOtherQID = ""
 
-Dim ar = CurrentQuestion.Responses
+Dim ar = CurrentQuestion.AvailableResponses
 For i = 1 to ar.Count
     If ar[i].isOpen = True Then
         If strOtherRID <> "" Then
