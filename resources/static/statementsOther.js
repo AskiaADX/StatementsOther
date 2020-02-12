@@ -234,6 +234,31 @@
 
 		}
 
+      // Headers expand/collapsed
+      var expandableHeaders = options.expandableHeaders
+      var accordionInitialState = options.accordionInitialState
+      if(expandableHeaders){
+        var headerList = document.querySelectorAll('.responseHeader');
+        for (var i = 0; i < headerList.length; i++) {
+          {
+            if (accordionInitialState == 'collapsed') {
+              var id = headerList[i].dataset.id;
+              $("#headerGroup"+id).toggle();
+              // $("i", headerList[i]).toggleClass("minus plus");
+            }
+          }
+          headerList[i].onclick = function(){
+            var id = this.dataset.id;
+            if (animateResponses) {
+              $("#headerGroup"+id).toggle('slow');
+            } else {
+              $("#headerGroup"+id).toggle();              
+            }
+            $("i", this).toggleClass("plus minus");
+          };
+        }
+      }
+
 		// Other
         var otherElems = container.parentNode.querySelectorAll('.otherText');
         for ( i = 0; i < otherElems.length; i++ ) {
@@ -624,7 +649,7 @@
                 }
             }, false);
         }
-        
+
         function scrollTo(element, to, duration) {
             if (duration <= 0) return;
             var difference = to - element.scrollTop;
