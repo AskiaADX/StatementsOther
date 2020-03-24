@@ -66,7 +66,8 @@
     v4.0.7 - expandableHeaders = Yes/No
     v4.0.8 - Accordion initial state = expanded/collapsed
     v4.0.9 - animate toggle when animateResponses = yes
-    v4.0.10 - Response groups - multiple	
+    v4.0.10 - Response groups - multiple
+    v4.0.11 - Fixed an issue for exclusive responses    
 ]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
@@ -583,7 +584,7 @@
       <property xsi:type="standardProperty" id="headerGroupBorderColor" name="Header Group Border Colour" type="color" mode="dynamic" visible="true">
         <description><![CDATA[Border colour of the header group box]]></description>
         <value><![CDATA[{%= Theme.NeutralColor %}]]></value>
-      </property>	
+      </property>
     </category>
   </properties>
 </control>
