@@ -64,3 +64,4 @@ Version
     v4.0.12 - changelog.md updated,
             - jquery.min.js added in resources.static,
             - use CurrentADC.InstanceId
+		v4.0.13 - a bug fix
