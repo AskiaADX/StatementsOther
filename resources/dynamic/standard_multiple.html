@@ -25,7 +25,7 @@ Dim arrOpenNames As StringArray
 Dim otherID
 
 For i = 1 to ar.Count
-    If ar[i].isOpen = True Then
+    If (ar[i].isOpen = True) Then
         arrOpenValues.Push(ar[i].OpenQuestion.InputValue())
         arrOpenNames.Push(ar[i].OpenQuestion.InputName())
         otherIDarray.Push(ar[i].Index)
