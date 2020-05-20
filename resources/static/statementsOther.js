@@ -238,7 +238,9 @@
         var otherElems = container.parentNode.querySelectorAll('.otherText');
         for ( i = 0; i < otherElems.length; i++ ) {
 			otherElems[i].style.width = (responseItems[0].offsetWidth - 35) + 'px';
+          console.log(responseItems[0].offsetWidth);
         	otherElems[i].style.display = "none";
+          debugger;
         }
 
 		var i;
@@ -466,6 +468,7 @@
                 selectedElements[i].style.filter = restoreRangeColour( selectedElements[i].getAttribute('data-id') );
                 removeClass(selectedElements[i], 'selected');
                 if (selectedElements[i].querySelector('.otherText') !== null) {
+
                 	selectedElements[i].querySelector('.otherText').style.display = 'none';
                     selectedElements[i].querySelector('.otherText').value = '';
                     selectedElements[i].querySelector('.otherText').defaultValue = '';
@@ -489,7 +492,8 @@
                 for (i = 0; i < otherQIDarray.length; ++i) {
                     if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
                 }
-				target.querySelector('.otherText').style.display = '';
+                target.querySelector('.otherText').style.width = (target.offsetWidth - 35) + 'px';
+				        target.querySelector('.otherText').style.display = '';
                 target.querySelector('.otherText').focus();
 			}
             if (window.askia && window.arrLiveRoutingShortcut && window.arrLiveRoutingShortcut.length > 0 && window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
@@ -517,6 +521,7 @@
 
                 if ( otherRIDarray.indexOf(target.getAttribute('data-index')) !== -1 ) {
                     var otherID = otherRIDarray.indexOf(target.getAttribute('data-index'));
+                    target.querySelector('.otherText').style.width = (target.offsetWidth - 35) + 'px';
                     target.querySelector('.otherText').style.display = 'none';
                     target.querySelector('.otherText').value = '';
                     if ( otherID !== -1 ) document.getElementById(otherQIDarray[otherID]).value = '';
@@ -529,6 +534,7 @@
                     currentValue = addValue(currentValue, value);
 
                     if ( otherRIDarray.indexOf(target.getAttribute('data-index')) !== -1 ) {
+                        target.querySelector('.otherText').style.width = (target.offsetWidth - 35) + 'px';
                         target.querySelector('.otherText').style.display = '';
                         target.querySelector('.otherText').focus();
                     }
@@ -584,6 +590,7 @@
                         for (j2 = 0; j2 < targetOthers.length; ++j2) {
                             targetOthers[j2].style.display = 'none';
                         }
+                        target.querySelector('.otherText').style.width = (target.offsetWidth - 35) + 'px';
                         target.querySelector('.otherText').style.display = '';
                         target.querySelector('.otherText').focus();
 					}
@@ -624,7 +631,7 @@
                 }
             }, false);
         }
-        
+
         function scrollTo(element, to, duration) {
             if (duration <= 0) return;
             var difference = to - element.scrollTop;
