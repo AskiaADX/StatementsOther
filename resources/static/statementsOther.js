@@ -238,9 +238,7 @@
         var otherElems = container.parentNode.querySelectorAll('.otherText');
         for ( i = 0; i < otherElems.length; i++ ) {
 			otherElems[i].style.width = (responseItems[0].offsetWidth - 35) + 'px';
-          console.log(responseItems[0].offsetWidth);
         	otherElems[i].style.display = "none";
-          debugger;
         }
 
 		var i;
