@@ -47,6 +47,7 @@ Next i
 		otherQID : '{%= strOtherQID %}',
     expandableHeaders : {%= (CurrentADC.PropValue("expandableHeaders") = "1") %},
     accordionInitialState : '{%= CurrentADC.PropValue("accordionInitialState") %}',
+    deselectionEnabled : {%= (CurrentADC.PropValue("deselectionEnabled") = "1") %},        
 		rangeGradientDirection : '{%= CurrentADC.PropValue("rangeGradientDirection") %}',
         mergeColumnWidth : '{%= CurrentADC.PropValue("mergeColumnWidth") %}',
         responseHeight : '{%= CurrentADC.PropValue("responseHeight") %}',

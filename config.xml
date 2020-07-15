@@ -7,8 +7,8 @@
   <info>
     <name>StatementsOther</name>
     <guid>1175ae20-499c-4a62-8dc3-d3f495c29530</guid>
-    <version>4.0.16</version>
-    <date>2020-05-19</date>
+    <version>4.1.0</version>
+    <date>2020-07-15</date>
     <description><![CDATA[Describe your ADC here]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>]]></author>
@@ -160,6 +160,14 @@
           <option value="0" text="No" />
         </options>
       </property>
+      <property xsi:type="standardProperty" id="deselectionEnabled" name="Deselection enabled - single" type="string" mode="dynamic" require="true" visible="true">
+        <description><![CDATA[Enable the deselection of the statement for single-coded questions]]></description>
+        <value><![CDATA[0]]></value>
+        <options>
+          <option value="1" text="Yes" />
+          <option value="0" text="No" />
+        </options>
+      </property>      
     </category>
     <category id="other" name="Other Response">
       <property xsi:type="standardProperty" id="otherColourPrimary" name="Other Background Colour" type="color" mode="dynamic" require="true" visible="false">
