@@ -26,7 +26,7 @@ if strOtherRID = "" Then
     Next nSemiopen
 Endif
 %}
-       
+
     var statementsOther = new StatementsOther({
         instanceId : '{%= CurrentADC.InstanceId%}',
         currentQuestion: '{%:= CurrentQuestion.Shortcut %}',
@@ -53,6 +53,7 @@ Endif
 		controlAlign : '{%= CurrentADC.PropValue("controlAlign") %}',
         otherRID : '{%= strOtherRID %}',
 		otherQID : '{%= strOtherQID %}',
+    deselectionEnabled : {%= (CurrentADC.PropValue("deselectionEnabled") = "1") %},    
 		rangeGradientDirection : '{%= CurrentADC.PropValue("rangeGradientDirection") %}',
         mergeColumnWidth : '{%= CurrentADC.PropValue("mergeColumnWidth") %}',
         responseHeight : '{%= CurrentADC.PropValue("responseHeight") %}',
