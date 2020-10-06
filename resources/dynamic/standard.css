@@ -109,8 +109,9 @@ Dim otherBorderRadius =CurrentADC.PropValue("otherBorderRadius")
 
 	margin: {%= responseMargin%};
 
-	min-height: {%= responseHeight%};
-	width: {%= responseWidth%};
+	min-height: {%= responseHeight %};
+	max-width: {%= responseWidth %};
+	width: {%= responseWidth %};
 }
 
 #adc_{%= CurrentADC.InstanceId%} .responseItem:hover

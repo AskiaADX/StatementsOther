@@ -47,10 +47,11 @@ Next i
 		otherQID : '{%= strOtherQID %}',
     expandableHeaders : {%= (CurrentADC.PropValue("expandableHeaders") = "1") %},
     accordionInitialState : '{%= CurrentADC.PropValue("accordionInitialState") %}',
-    deselectionEnabled : {%= (CurrentADC.PropValue("deselectionEnabled") = "1") %},        
+    deselectionEnabled : {%= (CurrentADC.PropValue("deselectionEnabled") = "1") %},
 		rangeGradientDirection : '{%= CurrentADC.PropValue("rangeGradientDirection") %}',
         mergeColumnWidth : '{%= CurrentADC.PropValue("mergeColumnWidth") %}',
         responseHeight : '{%= CurrentADC.PropValue("responseHeight") %}',
+        responseWidth : '{%= CurrentADC.PropValue("responseWidth") %}',        
 		{% IF CurrentADC.PropValue("useRange") = "1" Then %}
 			range: '{%= CurrentADC.PropValue("responseColourPrimary") %};{%= CurrentADC.PropValue("responseColourPrimary") %};{%= CurrentADC.PropValue("responseColourRangePrimary") %};{%= CurrentADC.PropValue("responseColourRangePrimary") %}',
 		{% EndIF %}
