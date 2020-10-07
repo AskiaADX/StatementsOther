@@ -346,7 +346,7 @@ Dim otherBorderRadius =CurrentADC.PropValue("otherBorderRadius")
 	-webkit-box-shadow: {%= otherShadow%};
 	-moz-box-shadow: {%= otherShadow%};
 	box-shadow: {%= otherShadow%};
-
+	width: -webkit-fill-available;
 }
 
 /* Instead of attribute unselectable and onselectstart not allowed for div in HTML5 */

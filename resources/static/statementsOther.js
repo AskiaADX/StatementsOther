@@ -148,7 +148,6 @@
 		(options.useRange = Boolean(options.useRange));
         (options.currentQuestion = options.currentQuestion || '');
         (options.mergeColumnWidth = parseInt(options.mergeColumnWidth, 10) || 480);
-        (options.responseHeight = options.responseHeight || '');
         (options.deselectionEnabled = Boolean(options.deselectionEnabled));
 
         this.instanceId = options.instanceId || 1;
@@ -204,15 +203,19 @@
 
             for ( i=0; i < responseItems.length; i++ ) {
                 responseItems[i].style.display = "inline-block";
-                responseItems[i].style.width = (100/options.columns) + '%';
+                responseItems[i].style.width = ((100/options.columns) - 2) + '%';
             }
 
-            var style = responseItems[0].currentStyle || window.getComputedStyle(responseItems[0]),
-            	widthDiff = (responseItems[0].offsetWidth + parseFloat(style.marginLeft) + parseFloat(style.marginRight)) - responseItems[0].clientWidth,
-            	newWidth = ((columns[0].offsetWidth - (widthDiff * options.columns))/options.columns) - 10;
-            for ( i = 0; i < responseItems.length; i++ ) {
-                responseItems[i].style.width = newWidth+'px';
-            }
+            // var style = responseItems[0].currentStyle || window.getComputedStyle(responseItems[0]),
+            // 	widthDiff = (responseItems[0].offsetWidth + parseFloat(style.marginLeft) + parseFloat(style.marginRight)) - responseItems[0].clientWidth,
+            // 	newWidth = ((columns[0].offsetWidth - (widthDiff * options.columns))/2) - 10;
+            // for ( i = 0; i < responseItems.length; i++ ) {
+            //     console.log('newWidth :'+ newWidth +', widthDiff :'+widthDiff
+            //     +', responseItems[0].clientWidth :'+responseItems[0].clientWidth
+            //     +', columns[0].offsetWidth :'+columns[0].offsetWidth+', options.columns :'+options.columns);
+            //     responseItems[i].style.width = newWidth+'px';
+            // }
+
             var maxResponseHeight = [];
             for ( i = 0; i < responseItems.length; i++) {
                 if ( !responseItems[i].querySelector('.otherText') ) {
@@ -264,8 +267,11 @@
 		// Other
         var otherElems = container.parentNode.querySelectorAll('.otherText');
         for ( i = 0; i < otherElems.length; i++ ) {
-			otherElems[i].style.width = (responseItems[0].offsetWidth - 35) + 'px';
-        	otherElems[i].style.display = "none";
+          otherElems[i].style.width = (responseItems[0].clientWidth - responseItems[0].marginRight) + 'px';
+          if (options.responseWidth != 'auto') {
+            otherElems[i].style.width = (responseItems[0].clientWidth - 35) + 'px';
+          }
+          otherElems[i].style.display = "none";
         }
 
 		var i;
