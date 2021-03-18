@@ -27,6 +27,28 @@
             };
         }
 	}
+	
+			    /**
+   * Return the value of the input trimed
+   *
+   * @param {x} value to trim
+   */
+    function myTrim(x) {
+        return x.trim();
+      }
+		
+		    /**
+   * Manage the input event on input semi open
+   *
+   * @param {Object} event Input event of the input semi open
+   * @param {Object} that AdcDefault object, same as options
+   */
+  function onInputSemiOpen (event, that) {
+    var el = event.target || event.srcElement;
+    if (el.className === 'otherText') {
+        el.previousElementSibling.value = myTrim(el.value);
+    }
+}
 
     function hasClass(el, className) {
 		return el.classList ? el.classList.contains(className) : new RegExp('\\b'+ className+'\\b').test(el.className);
@@ -508,6 +530,8 @@
                   	target.querySelector('.otherText').style.display = 'none';
                       target.querySelector('.otherText').value = '';
                       target.querySelector('.otherText').defaultValue = '';
+					  target.querySelector('.otherHidden').value = '';
+                      target.querySelector('.otherHidden').defaultValue = '';
                   }
 
               } else {
@@ -519,15 +543,18 @@
                     selectedElements[i].querySelector('.otherText').style.display = 'none';
                       selectedElements[i].querySelector('.otherText').value = '';
                       selectedElements[i].querySelector('.otherText').defaultValue = '';
+					  selectedElements[i].querySelector('.otherHidden').value = '';
+                      selectedElements[i].querySelector('.otherHidden').defaultValue = '';
                   }
                 }
 
                 addClass(target, 'selected');
-                input.value = value;
+                input.value = value.trim();
 
                 if (otherRIDarray.indexOf(target.getAttribute('data-index')) === -1) {
                     if (container.parentNode.querySelector('.otherText')) {
                         container.parentNode.querySelector('.otherText').value = '';
+						container.parentNode.querySelector('.otherHidden').value = '';
                     }
                     for (i = 0; i < otherQIDarray.length; ++i) {
                         if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
@@ -555,14 +582,17 @@
                 	selectedElements[i].querySelector('.otherText').style.display = 'none';
                     selectedElements[i].querySelector('.otherText').value = '';
                     selectedElements[i].querySelector('.otherText').defaultValue = '';
+					selectedElements[i].querySelector('.otherHidden').value = '';
+                    selectedElements[i].querySelector('.otherHidden').defaultValue = '';
                 }
               }
               addClass(target, 'selected');
-              input.value = value;
+              input.value = value.trim();
 
               if (otherRIDarray.indexOf(target.getAttribute('data-index')) === -1) {
                   if (container.parentNode.querySelector('.otherText')) {
                       container.parentNode.querySelector('.otherText').value = '';
+					  container.parentNode.querySelector('.otherHidden').value = '';
                   }
                   for (i = 0; i < otherQIDarray.length; ++i) {
                       if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
@@ -596,7 +626,7 @@
             var value = target.getAttribute('data-value'),
                  input = document.querySelector(items[target.getAttribute('data-id')].element),
                  isExclusive = target.classList.contains('exclusive') ? true : false,
-                 currentValue = input.value;
+                 currentValue = input.value.trim();
 
             if (hasClass(target, 'selected')) {
                 // Un-select
@@ -608,6 +638,7 @@
                     var otherID = otherRIDarray.indexOf(target.getAttribute('data-index'));
                     target.querySelector('.otherText').style.display = 'none';
                     target.querySelector('.otherText').value = '';
+					target.querySelector('.otherHidden').value = '';
                     if ( otherID !== -1 ) document.getElementById(otherQIDarray[otherID]).value = '';
 				        }
 
@@ -634,6 +665,7 @@
                             var otherID = otherRIDarray.indexOf(exclusiveElements[i].getAttribute('data-index'));
                             exclusiveElements[i].querySelector('.otherText').style.display = 'none';
                             exclusiveElements[i].querySelector('.otherText').value = '';
+							exclusiveElements[i].querySelector('.otherHidden').value = '';
                             if ( otherID !== -1 ) document.getElementById(otherQIDarray[otherID]).value = '';
                         }
                     }
@@ -651,8 +683,10 @@
                     if ( otherRIDarray.indexOf(target.getAttribute('data-index')) === -1 ) {
 
 						            var targetOthers = target.parentNode.querySelectorAll('.otherText');
+									var targetOthersHidden = target.parentNode.querySelectorAll('.otherHidden');
                         for (j1 = 0; j1 < targetOthers.length; ++j1) {
                             targetOthers[j1].value = '';
+							targetOthersHidden[j1].value = '';
                         }
                         for (i = 0; i < otherQIDarray.length; ++i) {
                             if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
@@ -664,8 +698,10 @@
 					          } else {
 
                         var targetOthers = target.parentNode.querySelectorAll('.otherText');
+						var targetOthersHidden = target.parentNode.querySelectorAll('.otherHidden');
                         for (j1 = 0; j1 < targetOthers.length; ++j1) {
                             targetOthers[j1].value = '';
+							targetOthersHidden[j1].value = '';
                         }
                         for (i = 0; i < otherQIDarray.length; ++i) {
                             if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
@@ -702,9 +738,15 @@
             otherTextItems[i].onclick = function(e) {
 				e.stopPropagation();
 			};
+			addEvent(otherTextItems[i], 'input',
+                         (function (passedInElement) {
+                    return function (e) {
+                        onInputSemiOpen(e, passedInElement);
+                    };
+                }(this)));
             addEvent(otherTextItems[i], 'keyup', function(e) {
                 var elem = e.srcElement || e.target;
-                document.getElementById(otherQIDarray[ parseInt(elem.getAttribute("data-id"))-1 ]).value = elem.value;
+                document.getElementById(otherQIDarray[ parseInt(elem.getAttribute("data-id"))-1 ]).value = elem.value.trim();
                 if (window.askia
                     && window.arrLiveRoutingShortcut
                     && window.arrLiveRoutingShortcut.length > 0
