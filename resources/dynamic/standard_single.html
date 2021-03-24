@@ -4,35 +4,28 @@ Dim inputValue = CurrentQuestion.InputValue()
 Dim caption
 Dim image
 Dim index
+Dim isHeader
 Dim columnCounter
 Dim i
 Dim j
 Dim k
 Dim flowDirection
+Dim nbMaxLength = CurrentADC.PropValue("maxlength").Trim()
+Dim attrMaxLength = On(nbMaxLength <> "", " maxlength='" + nbMaxLength + "'", "")
 Dim ar = CurrentQuestion.AvailableResponses
-Dim otherIDs = CurrentADC.PropValue("otherRID")
-Dim	otherIDarray = otherIDs.SplitToNumbers(",")
-Dim otherID
 
-' If the semi-opens are not defined in the old way
+Dim	otherIDarray As NumberArray
 Dim arrOpenValues As StringArray
 Dim arrOpenNames As StringArray
-if otherIDarray.Count = 0 Then
-    Dim nSemiopen
-    For nSemiopen =1 to 5
-        Dim respSemiOpen =  CurrentADC.PropValue("otherResponse" + nSemiOpen)
-        Dim qesSemiOpen =  CurrentADC.PropQuestion("otherQuestion" + nSemiOpen)
-        If respSemiOpen <> "" And  qesSemiOpen.ID <> DK And  qesSemiOpen.type="open" Then
-            For i = 1 to ar.Count
-                If ar[i].EntryCodeStr = respSemiOpen.ToString() Then
-                    arrOpenValues.Push(qesSemiOpen.InputValue())
-                    arrOpenNames.Push(qesSemiOpen.InputName())
-                    otherIDarray.Push(ar[i].Index)
-                Endif
-            Next i
-        EndIf
-    Next nSemiopen
-Endif
+Dim otherID
+
+For i = 1 to ar.Count
+    If (ar[i].isOpen = True) Then
+        arrOpenValues.Push(ar[i].OpenQuestion.InputValue())
+        arrOpenNames.Push(ar[i].OpenQuestion.InputName())
+        otherIDarray.Push(ar[i].Index)
+    Endif
+Next i
 
 %}
 <input type="hidden" id="{%= inputName %}" name="{%= inputName %}" value="{%= inputValue %}"  />
@@ -40,13 +33,17 @@ Endif
 
 Dim numberOfColumns = CurrentADC.PropValue("columns").ToNumber()
 Dim flow = CurrentADC.PropValue("columnsFlow")
+Dim showHeader    =CurrentADC.PropValue("showHeaders") ="1"
+Dim expandableHeaders = CurrentADC.PropValue("expandableHeaders") ="1"
+Dim accordionInitialState = CurrentADC.PropValue("accordionInitialState")
+
 Dim nbColumns = numberOfColumns
 
-IF numberOfColumns > 0 Then
-    
+IF (numberOfColumns > 0) Then
+
    	columnCounter = numberOfColumns
 
-    For i = 1 To ar.Count 
+    For i = 1 To ar.Count
         If (flow = "vertical") Then
             flowDirection = (((1 + (Int((i - 1) / nbColumns))) + ((Int(ar.Count / nbColumns)) * ((i - 1) mod nbColumns))) * (1 - (Int(i / ((ar.Count + 1) - (ar.Count mod nbColumns)))))) + ((Int(i / ((ar.Count + 1) - (ar.Count mod nbColumns)))) * i)
         Else
@@ -56,62 +53,122 @@ IF numberOfColumns > 0 Then
         caption     = ar[flowDirection].Caption
         image		= ar.ResourceURL[flowDirection]
         index		= ar[flowDirection].index
-        
+        isHeader  = ar[flowDirection].isHeader
+
         if ( (columnCounter mod numberOfColumns) = 0 ) Then %}
         	<div class="column">
         {% EndIf %}
-          
-        <div class="response responseItem" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">
-            {% IF image <> "" Then %}
-                <img src="{%= image %}" onmousedown='return false;' alt="{%:= caption %}"/>
-            {% EndIF %}
-            <span class="response_text" onmousedown='return false;'>{%:= caption %}</span>
-            <div style="clear:both"></div>
-            {% For k = 1 To otherIDarray.Count 
-            	otherID = otherIDarray[k].ToNumber()
-            	IF index = otherID Then %}
-                    <div style="overflow:hidden"><textarea class="otherText" data-id="{%= k %}"></textarea></div>
-                    <div style="clear:both"></div>
+
+     	{% If ((isHeader = False) or (showHeader = True)) Then %}
+    		{% If (isHeader = true) Then %}
+				    <div class="responseHeader" onmousedown="return false;" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">
+            {% Else %}
+        		<div class="response responseItem" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">
+        {% EndIF %}
+              {% IF (image <> "") Then %}
+                  <img src="{%= image %}" onmousedown='return false;' alt="{%:= caption %}"/>
+              {% EndIF %}
+              <span class="response_text" onmousedown='return false;'>{%:= caption %}</span>
+              <div style="clear:both"></div>
+              {% For k = 1 To otherIDarray.Count
+              	otherID = otherIDarray[k].ToNumber()
+              	IF index = otherID Then %}
+                      <div style="overflow:hidden">
+					    <textarea style="display:none;" class="otherHidden"  id="{%= ar[flowDirection].OpenQuestion.InputName() %}" name="{%= ar[flowDirection].OpenQuestion.InputName() %}" {%= attrMaxLength %}>
+                          {%= ar[flowDirection].OpenQuestion.inputValue() %}
+                        </textarea>
+                        <textarea aria-label="Other" class="otherText"  id="other{%= ar[flowDirection].OpenQuestion.InputName() %}" name="other{%= ar[flowDirection].OpenQuestion.InputName() %}" {%= attrMaxLength %} data-id="{%= k %}">
+                          {%= ar[flowDirection].OpenQuestion.inputValue() %}
+                        </textarea>
+                      </div>
+                      <div style="clear:both"></div>
                 {% EndIF %}
-            {% Next %}
-        </div>
-        
+              {% Next %}
+          </div>
+      {% EndIF %}
+
          {%
         columnCounter = columnCounter - 1
-        
-        IF (columnCounter < 1) or (i = ar.Count)  Then
-        
-            %}
+
+        IF (columnCounter < 1) or (i = ar.Count)  Then %}
             <div style="clear:both"></div>
             </div>
-            
-        {% columnCounter = numberOfColumns
-		EndIF
-    
+
+        {%
+        columnCounter = numberOfColumns
+		    EndIF
+
     Next
-    
+
 Else
-	
-    For j = 1 To ar.Count 
+
+    For j = 1 To ar.Count
         inputValue  = ar[j].InputValue()
         caption     = ar[j].Caption
         image		= ar.ResourceURL[j]
         index		= ar[j].index
+        isHeader  = ar[j].isHeader
     %}
-    <div class="response responseItem" data-value="{%= inputValue %}" data-id="{%= j %}" data-index="{%= index %}">
-        {% IF image <> "" Then %}
-            <img src="{%= image %}" onmousedown='return false;' alt="{%:= caption %}"/>
-        {% EndIF %}
-        <span class="response_text"  onmousedown='return false;'>{%:= caption %}</span>
-        <div style="clear:both"></div>
-        {% For k = 1 To otherIDarray.Count 
-        	otherID = otherIDarray[k].ToNumber()
-            IF index = otherID Then %}
-                <div style="overflow:hidden"><textarea aria-label="Other" class="otherText"  id="{%= arrOpenNames[k] %}" name="{%= arrOpenNames[k] %}" data-id="{%= k %}">{%= arrOpenValues[k] %}</textarea></div>
-                <div style="clear:both"></div>
+
+     	{% If ((isHeader = False) or (showHeader = True)) Then %}
+    		{% If (isHeader = true) Then%}
+    		  <div id="headerResponse{%= j %}" class="responseHeader" data-value="{%= inputValue %}" data-id="{%= j %}"data-index="{%= index %}">
+            {%
+            If (expandableHeaders = True) Then
+                If (accordionInitialState = "expanded") Then %}
+                <i class="minus"></i>
+                {% Else %}
+                <i class="plus"></i>
+                {% EndIf %}
+            {% EndIf %}
+            {%:= caption %}</div>
+          <div id="headerGroup{%= j %}" class="headerGroupWrap">
+            {%
+            Dim m
+          	Dim chr
+          	chr = ar[j].Children
+
+          	For m = 1 To chr.Count
+            %}
+            <div class="response responseItem" data-value="{%= chr[m].InputValue() %}" data-id="{%= m %}" data-index="{%= chr[m].index %}">
+              {% IF (chr.ResourceURL[m] <> "") Then %}
+                  <img src="{%= chr.ResourceURL[m] %}" onmousedown='return false;' alt="{%:= chr[m].Caption %}"/>
+              {% EndIF %}
+              <span class="response_text" onmousedown='return false;'>{%:= chr[m].Caption %}</span>
+              <div style="clear:both"></div>
+                {% For k = 1 To otherIDarray.Count
+                	otherID = otherIDarray[k].ToNumber()
+              	   IF (chr[m].index = otherID) Then %}
+                      <div style="overflow:hidden">
+					    <textarea style="display:none;" class="otherHidden"  id="{%= chr[m].OpenQuestion.InputName() %}" name="{%= chr[m].OpenQuestion.InputName() %}" {%= attrMaxLength %}>{%= chr[m].OpenQuestion.inputValue() %}</textarea>
+                        <textarea aria-label="Other" class="otherText"  id="other{%= chr[m].OpenQuestion.InputName() %}" name="other{%= chr[m].OpenQuestion.InputName() %}" {%= attrMaxLength %} data-id="{%= k %}">{%= chr[m].OpenQuestion.inputValue() %}</textarea>
+                      </div>
+                      <div style="clear:both"></div>
+                  {% EndIF %}
+                {% Next k %}
+   		      </div>
+            {% Next m %}
+          </div>
+        {% ElseIf ((isHeader = false) AND (ar[j].Parent.isHeader <> true)) Then %}
+	    	  <div class="response responseItem nhr" data-value="{%= inputValue %}" data-id="{%= flowDirection %}" data-index="{%= index %}">
+            {% IF (image <> "") Then %}
+                <img src="{%= image %}" onmousedown='return false;' alt="{%:= caption %}"/>
             {% EndIF %}
-        {% Next %}
-    </div>
+            <span class="response_text" onmousedown='return false;'>{%:= caption %}</span>
+            <div style="clear:both"></div>
+              {% For k = 1 To otherIDarray.Count
+              	otherID = otherIDarray[k].ToNumber()
+            	   IF (index = otherID) Then %}
+                    <div style="overflow:hidden">
+					  <textarea style="display:none;" class="otherHidden"  id="{%= ar[j].OpenQuestion.InputName() %}" name="{%= ar[j].OpenQuestion.InputName() %}" {%= attrMaxLength %}>{%= ar[j].OpenQuestion.inputValue() %}</textarea>
+                      <textarea aria-label="Other" class="otherText"  id="other{%= ar[j].OpenQuestion.InputName() %}" name="other{%= ar[j].OpenQuestion.InputName() %}" {%= attrMaxLength %} data-id="{%= k %}">{%= ar[j].OpenQuestion.inputValue() %}</textarea>
+                    </div>
+                    <div style="clear:both"></div>
+                {% EndIF %}
+              {% Next %}
+ 		      </div>
+        {% EndIF %}
+    {% EndIF %}
     {% Next %}
     <div style="clear:both"></div>
 {% EndIF %}

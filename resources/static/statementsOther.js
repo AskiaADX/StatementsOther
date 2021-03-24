@@ -27,6 +27,28 @@
             };
         }
 	}
+	
+			    /**
+   * Return the value of the input trimed
+   *
+   * @param {x} value to trim
+   */
+    function myTrim(x) {
+        return x.trim();
+      }
+		
+		    /**
+   * Manage the input event on input semi open
+   *
+   * @param {Object} event Input event of the input semi open
+   * @param {Object} that AdcDefault object, same as options
+   */
+  function onInputSemiOpen (event, that) {
+    var el = event.target || event.srcElement;
+    if (el.className === 'otherText') {
+        el.previousElementSibling.value = myTrim(el.value);
+    }
+}
 
     function hasClass(el, className) {
 		return el.classList ? el.classList.contains(className) : new RegExp('\\b'+ className+'\\b').test(el.className);
@@ -148,8 +170,7 @@
 		(options.useRange = Boolean(options.useRange));
         (options.currentQuestion = options.currentQuestion || '');
         (options.mergeColumnWidth = parseInt(options.mergeColumnWidth, 10) || 480);
-        (options.responseHeight = options.responseHeight || '');
-(options.deselectionEnabled = Boolean(options.deselectionEnabled));
+        (options.deselectionEnabled = Boolean(options.deselectionEnabled));
 
         this.instanceId = options.instanceId || 1;
         polyfillGetElementsByClassName();
@@ -204,15 +225,19 @@
 
             for ( i=0; i < responseItems.length; i++ ) {
                 responseItems[i].style.display = "inline-block";
-                responseItems[i].style.width = (100/options.columns) + '%';
+                responseItems[i].style.width = ((100/options.columns) - 2) + '%';
             }
 
-            var style = responseItems[0].currentStyle || window.getComputedStyle(responseItems[0]),
-            	widthDiff = (responseItems[0].offsetWidth + parseFloat(style.marginLeft) + parseFloat(style.marginRight)) - responseItems[0].clientWidth,
-            	newWidth = ((columns[0].offsetWidth - (widthDiff * options.columns))/options.columns) - 10;
-            for ( i = 0; i < responseItems.length; i++ ) {
-                responseItems[i].style.width = newWidth+'px';
-            }
+            // var style = responseItems[0].currentStyle || window.getComputedStyle(responseItems[0]),
+            // 	widthDiff = (responseItems[0].offsetWidth + parseFloat(style.marginLeft) + parseFloat(style.marginRight)) - responseItems[0].clientWidth,
+            // 	newWidth = ((columns[0].offsetWidth - (widthDiff * options.columns))/2) - 10;
+            // for ( i = 0; i < responseItems.length; i++ ) {
+            //     console.log('newWidth :'+ newWidth +', widthDiff :'+widthDiff
+            //     +', responseItems[0].clientWidth :'+responseItems[0].clientWidth
+            //     +', columns[0].offsetWidth :'+columns[0].offsetWidth+', options.columns :'+options.columns);
+            //     responseItems[i].style.width = newWidth+'px';
+            // }
+
             var maxResponseHeight = [];
             for ( i = 0; i < responseItems.length; i++) {
                 if ( !responseItems[i].querySelector('.otherText') ) {
@@ -236,11 +261,39 @@
 
 		}
 
+      // Headers expand/collapsed
+      var expandableHeaders = options.expandableHeaders
+      var accordionInitialState = options.accordionInitialState
+      if(expandableHeaders){
+        var headerList = document.querySelectorAll('#adc_' + this.instanceId + ' .responseHeader');
+        for (var i = 0; i < headerList.length; i++) {
+          {
+            if (accordionInitialState == 'collapsed') {
+              var id = headerList[i].dataset.id;
+              $("#headerGroup"+id).toggle();
+              // $("i", headerList[i]).toggleClass("minus plus");
+            }
+          }
+          headerList[i].onclick = function(){
+            var id = this.dataset.id;
+            if (animateResponses) {
+              $("#headerGroup"+id).toggle('slow');
+            } else {
+              $("#headerGroup"+id).toggle();
+            }
+            $("i", this).toggleClass("plus minus");
+          };
+        }
+      }
+
 		// Other
         var otherElems = container.parentNode.querySelectorAll('.otherText');
         for ( i = 0; i < otherElems.length; i++ ) {
-			otherElems[i].style.width = (responseItems[0].offsetWidth - 35) + 'px';
-        	otherElems[i].style.display = "none";
+          otherElems[i].style.width = (responseItems[0].clientWidth - responseItems[0].marginRight) + 'px';
+          if (options.responseWidth != 'auto') {
+            otherElems[i].style.width = (responseItems[0].clientWidth - 35) + 'px';
+          }
+          otherElems[i].style.display = "none";
         }
 
 		var i;
@@ -462,89 +515,101 @@
         function selectStatementSingle(target) {
             var input = items[0].element,
                 value = target.getAttribute('data-value');
+            // var deselectionEnabled = true;
 
             if (deselectionEnabled) {
-              if (hasClass(target,'selected')) {
-                // Un-select
-                target.style.filter = restoreRangeColour( target.getAttribute('data-id') );
-                removeClass(target, 'selected');
-                input.value = '';
 
-                if (target.querySelector('.otherText') !== null) {
-                  target.querySelector('.otherText').style.display = 'none';
-                    target.querySelector('.otherText').value = '';
-                    target.querySelector('.otherText').defaultValue = '';
-                }
-              } else {
-                  var selectedElements = [].slice.call(container.getElementsByClassName('selected'));
-                  for ( i=0; i<selectedElements.length; i++) {
-                      selectedElements[i].style.filter = restoreRangeColour( selectedElements[i].getAttribute('data-id') );
-                      removeClass(selectedElements[i], 'selected');
-                      if (selectedElements[i].querySelector('.otherText') !== null) {
+              if (hasClass(target, 'selected')) {
 
-                      	selectedElements[i].querySelector('.otherText').style.display = 'none';
-                          selectedElements[i].querySelector('.otherText').value = '';
-                          selectedElements[i].querySelector('.otherText').defaultValue = '';
-                      }
+                  // Un-select
+                  target.style.filter = restoreRangeColour( target.getAttribute('data-id') );
+                  removeClass(target, 'selected');
+                  input.value = '';
+
+                  if (target.querySelector('.otherText') !== null) {
+                  	target.querySelector('.otherText').style.display = 'none';
+                      target.querySelector('.otherText').value = '';
+                      target.querySelector('.otherText').defaultValue = '';
+					  target.querySelector('.otherHidden').value = '';
+                      target.querySelector('.otherHidden').defaultValue = '';
                   }
 
-                  addClass(target, 'selected');
-                  input.value = value;
-
-                  if (otherRIDarray.indexOf(target.getAttribute('data-index')) === -1) {
-        							if (container.parentNode.querySelector('.otherText')) {
-        								container.parentNode.querySelector('.otherText').value = '';
-        							}
-                      for (i = 0; i < otherQIDarray.length; ++i) {
-                          if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
-                      }
-      								if (container.parentNode.querySelector('.otherText')) {
-      									container.parentNode.querySelector('.otherText').style.display = 'none';
-      								}
-                  } else {
-                      for (i = 0; i < otherQIDarray.length; ++i) {
-                          if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
-                      }
-                      target.querySelector('.otherText').style.width = (target.offsetWidth - 35) + 'px';
-      				        target.querySelector('.otherText').style.display = '';
-                      target.querySelector('.otherText').focus();
-      			      }
-              }
-            } else {
-              var selectedElements = [].slice.call(container.getElementsByClassName('selected'));
-              for ( i=0; i<selectedElements.length; i++) {
+              } else {
+                var selectedElements = [].slice.call(container.getElementsByClassName('selected'));
+                for ( i=0; i<selectedElements.length; i++) {
                   selectedElements[i].style.filter = restoreRangeColour( selectedElements[i].getAttribute('data-id') );
                   removeClass(selectedElements[i], 'selected');
                   if (selectedElements[i].querySelector('.otherText') !== null) {
-
-                  	selectedElements[i].querySelector('.otherText').style.display = 'none';
+                    selectedElements[i].querySelector('.otherText').style.display = 'none';
                       selectedElements[i].querySelector('.otherText').value = '';
                       selectedElements[i].querySelector('.otherText').defaultValue = '';
+					  selectedElements[i].querySelector('.otherHidden').value = '';
+                      selectedElements[i].querySelector('.otherHidden').defaultValue = '';
                   }
+                }
+
+                addClass(target, 'selected');
+                input.value = value.trim();
+
+                if (otherRIDarray.indexOf(target.getAttribute('data-index')) === -1) {
+                    if (container.parentNode.querySelector('.otherText')) {
+                        container.parentNode.querySelector('.otherText').value = '';
+						container.parentNode.querySelector('.otherHidden').value = '';
+                    }
+                    for (i = 0; i < otherQIDarray.length; ++i) {
+                        if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
+                    }
+                    if (container.parentNode.querySelector('.otherText')) {
+                      container.parentNode.querySelector('.otherText').style.display = 'none';
+                    }
+                } else {
+                    for (i = 0; i < otherQIDarray.length; ++i) {
+                        if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
+                    }
+                    target.querySelector('.otherText').style.display = '';
+                    target.querySelector('.otherText').focus();
+                }
+
               }
 
+            } else {
+
+              var selectedElements = [].slice.call(container.getElementsByClassName('selected'));
+              for ( i=0; i<selectedElements.length; i++) {
+                selectedElements[i].style.filter = restoreRangeColour( selectedElements[i].getAttribute('data-id') );
+                removeClass(selectedElements[i], 'selected');
+                if (selectedElements[i].querySelector('.otherText') !== null) {
+                	selectedElements[i].querySelector('.otherText').style.display = 'none';
+                    selectedElements[i].querySelector('.otherText').value = '';
+                    selectedElements[i].querySelector('.otherText').defaultValue = '';
+					selectedElements[i].querySelector('.otherHidden').value = '';
+                    selectedElements[i].querySelector('.otherHidden').defaultValue = '';
+                }
+              }
               addClass(target, 'selected');
-              input.value = value;
+              input.value = value.trim();
 
               if (otherRIDarray.indexOf(target.getAttribute('data-index')) === -1) {
-    							if (container.parentNode.querySelector('.otherText')) {
-    								container.parentNode.querySelector('.otherText').value = '';
-    							}
+                  if (container.parentNode.querySelector('.otherText')) {
+                      container.parentNode.querySelector('.otherText').value = '';
+					  container.parentNode.querySelector('.otherHidden').value = '';
+                  }
                   for (i = 0; i < otherQIDarray.length; ++i) {
                       if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
                   }
-  								if (container.parentNode.querySelector('.otherText')) {
-  									container.parentNode.querySelector('.otherText').style.display = 'none';
-  								}
+                  if (container.parentNode.querySelector('.otherText')) {
+                    container.parentNode.querySelector('.otherText').style.display = 'none';
+                  }
               } else {
                   for (i = 0; i < otherQIDarray.length; ++i) {
                       if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
                   }
-                  target.querySelector('.otherText').style.width = (target.offsetWidth - 35) + 'px';
-  				        target.querySelector('.otherText').style.display = '';
+                  target.querySelector('.otherText').style.display = '';
                   target.querySelector('.otherText').focus();
-  			      }
+              }
+
             }
+
 
             if (window.askia && window.arrLiveRoutingShortcut && window.arrLiveRoutingShortcut.length > 0 && window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
                 askia.triggerAnswer();
@@ -560,8 +625,8 @@
         function selectStatementMultiple(target) {
             var value = target.getAttribute('data-value'),
                  input = document.querySelector(items[target.getAttribute('data-id')].element),
-                 isExclusive = Boolean(items[target.getAttribute('data-id')].isExclusive),
-                 currentValue = input.value;
+                 isExclusive = target.classList.contains('exclusive') ? true : false,
+                 currentValue = input.value.trim();
 
             if (hasClass(target, 'selected')) {
                 // Un-select
@@ -571,11 +636,11 @@
 
                 if ( otherRIDarray.indexOf(target.getAttribute('data-index')) !== -1 ) {
                     var otherID = otherRIDarray.indexOf(target.getAttribute('data-index'));
-                    target.querySelector('.otherText').style.width = (target.offsetWidth - 35) + 'px';
                     target.querySelector('.otherText').style.display = 'none';
                     target.querySelector('.otherText').value = '';
+					target.querySelector('.otherHidden').value = '';
                     if ( otherID !== -1 ) document.getElementById(otherQIDarray[otherID]).value = '';
-				}
+				        }
 
             } else {
                 // Select
@@ -584,7 +649,6 @@
                     currentValue = addValue(currentValue, value);
 
                     if ( otherRIDarray.indexOf(target.getAttribute('data-index')) !== -1 ) {
-                        target.querySelector('.otherText').style.width = (target.offsetWidth - 35) + 'px';
                         target.querySelector('.otherText').style.display = '';
                         target.querySelector('.otherText').focus();
                     }
@@ -601,6 +665,7 @@
                             var otherID = otherRIDarray.indexOf(exclusiveElements[i].getAttribute('data-index'));
                             exclusiveElements[i].querySelector('.otherText').style.display = 'none';
                             exclusiveElements[i].querySelector('.otherText').value = '';
+							exclusiveElements[i].querySelector('.otherHidden').value = '';
                             if ( otherID !== -1 ) document.getElementById(otherQIDarray[otherID]).value = '';
                         }
                     }
@@ -617,9 +682,11 @@
                     currentValue = value;
                     if ( otherRIDarray.indexOf(target.getAttribute('data-index')) === -1 ) {
 
-						var targetOthers = target.parentNode.querySelectorAll('.otherText');
+						            var targetOthers = target.parentNode.querySelectorAll('.otherText');
+									var targetOthersHidden = target.parentNode.querySelectorAll('.otherHidden');
                         for (j1 = 0; j1 < targetOthers.length; ++j1) {
                             targetOthers[j1].value = '';
+							targetOthersHidden[j1].value = '';
                         }
                         for (i = 0; i < otherQIDarray.length; ++i) {
                             if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
@@ -628,11 +695,13 @@
                             targetOthers[j2].style.display = 'none';
                         }
 
-					} else {
+					          } else {
 
                         var targetOthers = target.parentNode.querySelectorAll('.otherText');
+						var targetOthersHidden = target.parentNode.querySelectorAll('.otherHidden');
                         for (j1 = 0; j1 < targetOthers.length; ++j1) {
                             targetOthers[j1].value = '';
+							targetOthersHidden[j1].value = '';
                         }
                         for (i = 0; i < otherQIDarray.length; ++i) {
                             if ( otherQIDarray[i] != '' ) document.getElementById(otherQIDarray[i]).value = '';
@@ -640,7 +709,6 @@
                         for (j2 = 0; j2 < targetOthers.length; ++j2) {
                             targetOthers[j2].style.display = 'none';
                         }
-                        target.querySelector('.otherText').style.width = (target.offsetWidth - 35) + 'px';
                         target.querySelector('.otherText').style.display = '';
                         target.querySelector('.otherText').focus();
 					}
@@ -670,9 +738,15 @@
             otherTextItems[i].onclick = function(e) {
 				e.stopPropagation();
 			};
+			addEvent(otherTextItems[i], 'input',
+                         (function (passedInElement) {
+                    return function (e) {
+                        onInputSemiOpen(e, passedInElement);
+                    };
+                }(this)));
             addEvent(otherTextItems[i], 'keyup', function(e) {
                 var elem = e.srcElement || e.target;
-                document.getElementById(otherQIDarray[ parseInt(elem.getAttribute("data-id"))-1 ]).value = elem.value;
+                document.getElementById(otherQIDarray[ parseInt(elem.getAttribute("data-id"))-1 ]).value = elem.value.trim();
                 if (window.askia
                     && window.arrLiveRoutingShortcut
                     && window.arrLiveRoutingShortcut.length > 0

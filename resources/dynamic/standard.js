@@ -1,32 +1,24 @@
 /* standard.js */
  DomReady.ready(function() {
 {%
-Dim i =1
-Dim strOtherRID = CurrentADC.PropValue("otherRID")
-Dim strOtherQID = CurrentADC.PropValue("otherQID")
-if strOtherRID = "" Then
-    Dim ar = CurrentQuestion.AvailableResponses
-    strOtherQID = ""
-    Dim nSemiopen
-    For nSemiopen =1 to 5
-        Dim respSemiOpen =  CurrentADC.PropValue("otherResponse" + nSemiOpen)
-        Dim qesSemiOpen =  CurrentADC.PropQuestion("otherQuestion" + nSemiOpen)
-        If respSemiOpen <> "" And  qesSemiOpen.ID <> DK And  qesSemiOpen.type="open" Then
-            For i = 1 to ar.Count
-                If ar[i].EntryCodeStr = respSemiOpen.ToString() Then
-                    If strOtherRID <> "" Then
-                    	strOtherRID = strOtherRID + ","
-                        strOtherQID = strOtherQID + ","
-                    Endif
-                    strOtherRID = strOtherRID + ar[i].Index
-                    strOtherQID = strOtherQID + qesSemiOpen.InputName()
-                Endif
-            Next i
-        EndIf
-    Next nSemiopen
-Endif
-%}
+Dim i
 
+Dim strOtherRID = ""
+Dim strOtherQID = ""
+
+Dim ar = CurrentQuestion.AvailableResponses
+For i = 1 to ar.Count
+    If ar[i].isOpen = True Then
+        If strOtherRID <> "" Then
+          strOtherRID = strOtherRID + ","
+            strOtherQID = strOtherQID + ","
+        Endif
+        strOtherRID = strOtherRID + ar[i].Index
+        strOtherQID = strOtherQID + ar[i].OpenQuestion.InputName()
+    Endif
+Next i
+
+%}
     var statementsOther = new StatementsOther({
         instanceId : '{%= CurrentADC.InstanceId%}',
         currentQuestion: '{%:= CurrentQuestion.Shortcut %}',
@@ -53,10 +45,13 @@ Endif
 		controlAlign : '{%= CurrentADC.PropValue("controlAlign") %}',
         otherRID : '{%= strOtherRID %}',
 		otherQID : '{%= strOtherQID %}',
-    deselectionEnabled : {%= (CurrentADC.PropValue("deselectionEnabled") = "1") %},    
+    expandableHeaders : {%= (CurrentADC.PropValue("expandableHeaders") = "1") %},
+    accordionInitialState : '{%= CurrentADC.PropValue("accordionInitialState") %}',
+    deselectionEnabled : {%= (CurrentADC.PropValue("deselectionEnabled") = "1") %},
 		rangeGradientDirection : '{%= CurrentADC.PropValue("rangeGradientDirection") %}',
         mergeColumnWidth : '{%= CurrentADC.PropValue("mergeColumnWidth") %}',
         responseHeight : '{%= CurrentADC.PropValue("responseHeight") %}',
+        responseWidth : '{%= CurrentADC.PropValue("responseWidth") %}',        
 		{% IF CurrentADC.PropValue("useRange") = "1" Then %}
 			range: '{%= CurrentADC.PropValue("responseColourPrimary") %};{%= CurrentADC.PropValue("responseColourPrimary") %};{%= CurrentADC.PropValue("responseColourRangePrimary") %};{%= CurrentADC.PropValue("responseColourRangePrimary") %}',
 		{% EndIF %}
