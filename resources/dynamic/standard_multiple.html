@@ -10,6 +10,8 @@ Dim total
 Dim maxPerColumn
 Dim remainder
 Dim columnCounter
+Dim nbMaxLength = CurrentADC.PropValue("maxlength").Trim()
+Dim attrMaxLength = On(nbMaxLength <> "", " maxlength='" + nbMaxLength + "'", "")
 Dim ar = CurrentQuestion.AvailableResponses
 
 Dim attrSelected
@@ -79,8 +81,8 @@ IF (numberOfColumns > 0) Then
             	otherID = otherIDarray[k].ToNumber()
             	IF (index = otherID) Then %}
                     <div style="overflow:hidden">
-					<textarea style="display:none;" class="otherHidden"  id="{%= ar[flowDirection].OpenQuestion.InputName() %}" name="{%= ar[flowDirection].OpenQuestion.InputName() %}">{%= ar[flowDirection].OpenQuestion.inputValue() %}</textarea>
-					<textarea aria-label="Other" class="otherText"  id="other{%= ar[flowDirection].OpenQuestion.InputName() %}" name="other{%= ar[flowDirection].OpenQuestion.InputName() %}" data-id="{%= k %}">{%= ar[flowDirection].OpenQuestion.inputValue() %}</textarea>
+					<textarea style="display:none;" class="otherHidden"  id="{%= ar[flowDirection].OpenQuestion.InputName() %}" name="{%= ar[flowDirection].OpenQuestion.InputName() %}" {%= attrMaxLength %}>{%= ar[flowDirection].OpenQuestion.inputValue() %}</textarea>
+					<textarea aria-label="Other" class="otherText"  id="other{%= ar[flowDirection].OpenQuestion.InputName() %}" name="other{%= ar[flowDirection].OpenQuestion.InputName() %}" {%= attrMaxLength %} data-id="{%= k %}">{%= ar[flowDirection].OpenQuestion.inputValue() %}</textarea>
 					</div>
                     <div style="clear:both"></div>
                 {% EndIF %}
@@ -143,8 +145,8 @@ Else
                       	otherID = otherIDarray[k].ToNumber()
                       	IF (chr[m].index = otherID) Then %}
                           <div style="overflow:hidden">
-						    <textarea style="display:none;" class="otherHidden"  id="{%= chr[m].OpenQuestion.InputName() %}" name="{%= chr[m].OpenQuestion.InputName() %}">{%= chr[m].OpenQuestion.inputValue() %}</textarea>
-                            <textarea aria-label="Other" class="otherText"  id="other{%= chr[m].OpenQuestion.InputName() %}" name="other{%= chr[m].OpenQuestion.InputName() %}" data-id="{%= k %}">{%= chr[m].OpenQuestion.inputValue() %}</textarea>
+						    <textarea style="display:none;" class="otherHidden"  id="{%= chr[m].OpenQuestion.InputName() %}" name="{%= chr[m].OpenQuestion.InputName() %}" {%= attrMaxLength %}>{%= chr[m].OpenQuestion.inputValue() %}</textarea>
+                            <textarea aria-label="Other" class="otherText"  id="other{%= chr[m].OpenQuestion.InputName() %}" name="other{%= chr[m].OpenQuestion.InputName() %}" {%= attrMaxLength %} data-id="{%= k %}">{%= chr[m].OpenQuestion.inputValue() %}</textarea>
                           </div>
                         	<div style="clear:both"></div>
             			     {% EndIF %}
@@ -163,8 +165,8 @@ Else
                     	otherID = otherIDarray[k].ToNumber()
                     	IF (index = otherID) Then %}
                         <div style="overflow:hidden">
-						  <textarea style="display:none;" class="otherHidden"  id="{%= ar[j].OpenQuestion.InputName() %}" name="{%= ar[j].OpenQuestion.InputName() %}">{%= ar[j].OpenQuestion.inputValue() %}</textarea>
-                          <textarea aria-label="Other" class="otherText"  id="other{%= ar[j].OpenQuestion.InputName() %}" name="other{%= ar[j].OpenQuestion.InputName() %}" data-id="{%= k %}">{%= ar[j].OpenQuestion.inputValue() %}</textarea>
+						  <textarea style="display:none;" class="otherHidden"  id="{%= ar[j].OpenQuestion.InputName() %}" name="{%= ar[j].OpenQuestion.InputName() %}" {%= attrMaxLength %}>{%= ar[j].OpenQuestion.inputValue() %}</textarea>
+                          <textarea aria-label="Other" class="otherText"  id="other{%= ar[j].OpenQuestion.InputName() %}" name="other{%= ar[j].OpenQuestion.InputName() %}" {%= attrMaxLength %} data-id="{%= k %}">{%= ar[j].OpenQuestion.inputValue() %}</textarea>
                         </div>
                       	<div style="clear:both"></div>
           			     {% EndIF %}

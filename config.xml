@@ -7,7 +7,7 @@
   <info>
     <name>StatementsOther</name>
     <guid>1175ae20-499c-4a62-8dc3-d3f495c29530</guid>
-    <version>4.1.2</version>
+    <version>4.1.3</version>
     <date>2020-10-06</date>
     <description><![CDATA[Describe your ADC here]]></description>
     <company>Askia</company>
@@ -90,7 +90,7 @@
           <option value="right" text="Right" />
         </options>
       </property>
-      <property xsi:type="standardProperty" id="columns" name="Columns" type="number" mode="static">
+      <property xsi:type="standardProperty" id="columns" name="Columns" type="number" mode="static" require="false" visible="true">
         <description><![CDATA[
           The maximum width of the control
         ]]></description>
@@ -170,6 +170,12 @@
       </property>
     </category>
     <category id="other" name="Other Response">
+	   <property xsi:type="standardProperty" id="maxlength" name="Max length" type="number" mode="static" require="false" visible="true">
+        <description><![CDATA[
+          The maximum length of the semi open. If empty then no limitation.
+        ]]></description>
+        <value><![CDATA[]]></value>
+      </property>
       <property xsi:type="standardProperty" id="otherColourPrimary" name="Other Background Colour" type="color" mode="dynamic" require="true" visible="false">
         <description><![CDATA[Background colour of the other response]]></description>
         <value><![CDATA[{%= Theme.WhiteColor %}]]></value>

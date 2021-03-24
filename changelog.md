@@ -71,3 +71,4 @@ Version
 	v4.1.0 - Enable deselection of statement for single-coded questions
 	v4.1.1 - Fixed - response height and width
 	v4.1.2 - Trim the semi open
+	v4.1.3 - Added Max length parameter
